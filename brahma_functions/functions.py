@@ -30,6 +30,7 @@ def ai_func(func, prompt=None, *args, **kwargs):
         the generated code
     """
     language = kwargs.get("language", "python")
+    backup = kwargs.get("backup", True)
 
     # get the function arguments and comments
     argspec = inspect.getfullargspec(func)
@@ -47,7 +48,7 @@ def ai_func(func, prompt=None, *args, **kwargs):
         if comments is not None:
             prompt += f"Here are the comments:\n{comments}\n\n"
 
-        prompt += f"The function should return:\n\n"
+        prompt += f"The function should return:\n"
         if DEBUG:
             print(prompt)
 
@@ -63,6 +64,14 @@ def ai_func(func, prompt=None, *args, **kwargs):
 
     # extract and return the genetrated code
     generated_code = response.choices[0].text.strip()
+
+    if backup:
+        # write the generated code to a file
+        if not os.path.exists("generated_code"):
+            os.mkdir("generated_code")
+        with open(f"generated_code/{func.__name__}.py", "w") as f:
+            f.write(generated_code)
+
     return generated_code
 
 
@@ -71,4 +80,4 @@ def add_nums(num1, num2):
 
 
 if __name__ == "__main__":
-    print(ai_func(add_nums))
+    (ai_func(add_nums))
