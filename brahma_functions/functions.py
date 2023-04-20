@@ -10,10 +10,7 @@
 
 
 import os
-import ast
 import inspect
-import textwrap
-import tokenize
 import functools
 import openai
 
@@ -23,7 +20,7 @@ DEBUG = True
 
 
 @functools.lru_cache(maxsize=None)
-def ai_func(func, *args, **kwargs):
+def ai_func(func, prompt=None, *args, **kwargs):
     """
     This function uses GPT to generate code for the given function signature.
     args:
@@ -39,19 +36,21 @@ def ai_func(func, *args, **kwargs):
     comments = inspect.getdoc(func)
 
     # build the prompt
-    prompt = f"Write a function {func.__name__} that"
-    prompt += f" takes {len(argspec.args)} arguments: {', '.join(argspec.args)}"
+    if prompt is None:
+        prompt = f"Write a function {func.__name__} that"
+        prompt += f" takes {len(argspec.args)} arguments: {', '.join(argspec.args)}"
 
-    for arg in argspec.args:
-        prompt += f"\n- {arg}"
-    prompt += "\n\n"
+        for arg in argspec.args:
+            prompt += f"\n- {arg}"
+        prompt += "\n\n"
 
-    if comments is not None:
-        prompt += f"Here are the comments:\n{comments}\n\n"
+        if comments is not None:
+            prompt += f"Here are the comments:\n{comments}\n\n"
 
-    prompt += f"The function should return:\n\n"
-    if DEBUG:
-        print(prompt)
+        prompt += f"The function should return:\n\n"
+        if DEBUG:
+            print(prompt)
+
     # generate the code using GPT
     response = openai.Completion.create(
         engine=model,
