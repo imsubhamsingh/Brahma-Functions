@@ -14,7 +14,7 @@ import ast
 import inspect
 import textwrap
 import tokenize
-from io import BytesIO
+import functools
 import openai
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -22,6 +22,7 @@ model = "text-davinci-003"
 DEBUG = True
 
 
+@functools.lru_cache(maxsize=None)
 def ai_func(func, *args, **kwargs):
     """
     This function uses GPT to generate code for the given function signature.
