@@ -38,15 +38,13 @@ def ai_func(func, prompt=None, *args, **kwargs):
 
     # build the prompt
     if prompt is None:
-        prompt = f"Write a function {func.__name__} that"
-        prompt += f" takes {len(argspec.args)} arguments: {', '.join(argspec.args)}"
-
-        for arg in argspec.args:
-            prompt += f"\n- {arg}"
-        prompt += "\n\n"
-
-        if comments is not None:
-            prompt += f"Here are the comments:\n{comments}\n\n"
+        prompt = (
+            f"Write a function {func.__name__} that"
+            f" takes {len(argspec.args)} arguments: {', '.join(argspec.args)}\n"
+            + "\n".join([f"- {arg}" for arg in argspec.args])
+            + "\n\n"
+            + (f"Here are the comments:\n{comments}\n\n" if comments else "")
+        )
 
     if DEBUG:
         print(prompt)
