@@ -48,9 +48,8 @@ def ai_func(func, prompt=None, *args, **kwargs):
         if comments is not None:
             prompt += f"Here are the comments:\n{comments}\n\n"
 
-        prompt += f"The function should return:\n"
-        if DEBUG:
-            print(prompt)
+    if DEBUG:
+        print(prompt)
 
     # generate the code using GPT
     response = openai.Completion.create(
@@ -70,14 +69,35 @@ def ai_func(func, prompt=None, *args, **kwargs):
         if not os.path.exists("generated_code"):
             os.mkdir("generated_code")
         with open(f"generated_code/{func.__name__}.py", "w") as f:
+            print(f"Writing generated code to generated_code/{func.__name__}.py")
             f.write(generated_code)
 
     return generated_code
+
+
+# Running some samples to test the functions
+# TODO: Remove this code and create a separate file for testing
 
 
 def add_nums(num1, num2):
     """This function adds two numbers together"""
 
 
+def merge_two_linkedlists_v1(l1, l2):
+    """This function merges two linked lists together"""
+
+
+def merge_two_linkedlists_v2(l1, l2):
+    """This function merges two linked lists together
+    args:
+        l1: the first linked list
+        l2: the second linked list
+    returns:
+        the merged linked list
+    """
+
+
 if __name__ == "__main__":
-    (ai_func(add_nums))
+    # (ai_func(add_nums))
+    ai_func(merge_two_linkedlists_v1)
+    ai_func(merge_two_linkedlists_v2)
