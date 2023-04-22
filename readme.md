@@ -1,6 +1,9 @@
 # Brahma-Functions
 The future of function decoration.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
 Brahma Functions is an AI-powered function decorator that enhances user-defined functions with intelligent code suggestion and completion. With Brahma Functions, you can take your coding skills to the next level and streamline your workflow by leveraging the power of artificial intelligence.
 
 ## Features
