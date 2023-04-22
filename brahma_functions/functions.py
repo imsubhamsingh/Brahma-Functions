@@ -77,6 +77,9 @@ def ai_func(func, prompt=None, *args, **kwargs):
     # extract and return the genetrated code
     generated_code = response.choices[0].text.strip()
 
+    # format the generated code
+    generated_code = _format_python_code(generated_code)
+
     if backup:
         # write the generated code to a file
         if not os.path.exists(CACHE_DIR):
@@ -84,9 +87,6 @@ def ai_func(func, prompt=None, *args, **kwargs):
         with open(f"{CACHE_FILE_PATH}", "w") as f:
             print(f"Writing generated code to {CACHE_FILE_PATH}")
             f.write(generated_code)
-
-    # format the generated code
-    generated_code = _format_python_code(generated_code)
 
     return generated_code
 
