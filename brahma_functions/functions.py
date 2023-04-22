@@ -21,7 +21,7 @@ DEBUG = True
 
 
 @functools.lru_cache(maxsize=None)
-def ai_func(func, prompt=None, *args, **kwargs):
+def ai_func(obj, prompt=None, *args, **kwargs):
     """
     This function uses GPT to generate code for the given function signature.
     args:
@@ -33,25 +33,60 @@ def ai_func(func, prompt=None, *args, **kwargs):
     language = kwargs.get("language", "python")
     backup = kwargs.get("backup", True)
 
-    # get the function arguments and comments
-    argspec = inspect.getfullargspec(func)
-    comments = inspect.getdoc(func)
+    if inspect.isfunction(obj):
+        # get the function arguments and comments
+        argspec = inspect.getfullargspec(obj)
+        comments = inspect.getdoc(obj)
 
-    # build the prompt
-    if prompt is None:
-        prompt = (
-            f"Write a function {func.__name__} that"
-            f" takes {len(argspec.args)} arguments: {', '.join(argspec.args)}\n"
-            + "\n".join([f"- {arg}" for arg in argspec.args])
-            + "\n\n"
-            + (f"Here are the comments:\n{comments}\n\n" if comments else "")
-        )
+        # build the prompt
+        if prompt is None:
+            prompt = (
+                f"Write a function {obj.__name__} that"
+                f" takes {len(argspec.args)} arguments: {', '.join(argspec.args)}\n"
+                + "\n".join([f"- {arg}" for arg in argspec.args])
+                + "\n\n"
+                + (f"Here are the comments:\n{comments}\n\n" if comments else "")
+            )
+    elif inspect.isclass(obj):
+        # get the class attributes and comments
+        class_members = inspect.getmembers(obj, lambda a: not (inspect.isroutine(a)))
+
+        attributes = [a for a in class_members if not a[0].startswith("_")]
+
+        attributes_names = [a[0] for a in attributes]
+        attributes_values = [a[1] for a in attributes]
+
+        class_methods = inspect.getmembers(obj, predicate=inspect.isfunction)
+        class_methods_names = [a[0] for a in class_methods]
+
+        comments = inspect.getdoc(obj)
+
+        # build the prompt
+        if prompt is None:
+            prompt = (
+                f"Write a class {obj.__name__} that has the following attributes:\n"
+                + "\n".join([f"- {arg}" for arg in attributes_names])
+                + "\n\n"
+                + (f"Here are the comments:\n{comments}\n\n" if comments else "")
+            )
+
+            for method in class_methods:
+                method_name = method[0]
+                method_comments = inspect.getdoc(method[1])
+                method_argspec = inspect.getfullargspec(method[1])
+                prompt += f"Write a method {method_name} that" f" takes {len(method_argspec.args)} arguments: {', '.join(method_argspec.args)}\n" + "\n".join(
+                    [f"- {arg}" for arg in method_argspec.args]
+                ) + "\n\n" + (
+                    f"Here are the comments:\n{method_comments}\n\n"
+                    if method_comments
+                    else ""
+                )
 
     if DEBUG:
         print(prompt)
 
     CACHE_DIR = "generated_code"
-    CACHE_FILE = f"{func.__name__}.py"
+    CACHE_FILE = f"{obj.__name__}.py"
     CACHE_FILE_PATH = f"{CACHE_DIR}/{CACHE_FILE}"
 
     # check if the code has already been generated
@@ -113,7 +148,48 @@ def merge_two_linkedlists_v2(l1, l2):
     """
 
 
+# Test the class generation
+class Car:
+    """
+    "Write a Python class named 'Car' with attributes 'make', 'model', and 'year',
+    and a method named 'description' that returns a string in the format 'year make model'."
+    """
+
+
+class Vehicle:
+    """
+    Suppose you are working on a project that requires a class to represent
+    a vehicle. You have been asked to create a class named Vehicle with the
+    following methods:
+    Write the code for the Vehicle class with these methods implemented.
+    You can assume that the make, model, year, and color parameters are strings,
+    and the speed parameter is a float. You do not need to implement any validation
+    for the parameters at this time.
+    """
+
+    def __init__(self, make, model, year, color):
+        # TODO: Implement the __init__ method
+        pass
+
+    def start(self):
+        # TODO: Implement the start method
+        pass
+
+    def stop(self):
+        # TODO: Implement the stop method
+        pass
+
+    def accelerate(self, speed):
+        pass
+
+    def decelerate(self, speed):
+        # TODO: Implement the decelerate method
+        pass
+
+
 if __name__ == "__main__":
-    ai_func(add_nums)
+    # ai_func(add_nums)
     # ai_func(merge_two_linkedlists_v1)
     # ai_func(merge_two_linkedlists_v2)
+    ai_func(Car)
+    ai_func(Vehicle)
