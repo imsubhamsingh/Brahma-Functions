@@ -49,6 +49,20 @@ def ai_func(func, prompt=None, *args, **kwargs):
     if DEBUG:
         print(prompt)
 
+    CACHE_DIR = "generated_code"
+    CACHE_FILE = f"{func.__name__}.py"
+    CACHE_FILE_PATH = f"{CACHE_DIR}/{CACHE_FILE}"
+
+    # check if the code has already been generated
+    if os.path.exists(CACHE_FILE_PATH):
+        # Ask the user if they want to use the cached code
+        regenerate = input(
+            f"Code for '{CACHE_FILE}' already exists. Regenerate (y/n)?: "
+        )
+        if regenerate.lower() == "n":
+            with open(CACHE_FILE_PATH, "r") as f:
+                return f.read()
+
     # generate the code using GPT
     response = openai.Completion.create(
         engine=model,
@@ -64,10 +78,10 @@ def ai_func(func, prompt=None, *args, **kwargs):
 
     if backup:
         # write the generated code to a file
-        if not os.path.exists("generated_code"):
-            os.mkdir("generated_code")
-        with open(f"generated_code/{func.__name__}.py", "w") as f:
-            print(f"Writing generated code to generated_code/{func.__name__}.py")
+        if not os.path.exists(CACHE_DIR):
+            os.mkdir(CACHE_DIR)
+        with open(f"{CACHE_FILE_PATH}", "w") as f:
+            print(f"Writing generated code to {CACHE_FILE_PATH}")
             f.write(generated_code)
 
     return generated_code
@@ -96,6 +110,6 @@ def merge_two_linkedlists_v2(l1, l2):
 
 
 if __name__ == "__main__":
-    # (ai_func(add_nums))
-    ai_func(merge_two_linkedlists_v1)
-    ai_func(merge_two_linkedlists_v2)
+    ai_func(add_nums)
+    # ai_func(merge_two_linkedlists_v1)
+    # ai_func(merge_two_linkedlists_v2)
