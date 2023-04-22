@@ -13,6 +13,7 @@ import os
 import inspect
 import functools
 import openai
+from formatters import _format_python_code
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 model = "text-davinci-003"
@@ -83,6 +84,9 @@ def ai_func(func, prompt=None, *args, **kwargs):
         with open(f"{CACHE_FILE_PATH}", "w") as f:
             print(f"Writing generated code to {CACHE_FILE_PATH}")
             f.write(generated_code)
+
+    # format the generated code
+    generated_code = _format_python_code(generated_code)
 
     return generated_code
 
