@@ -11,8 +11,6 @@ class Vehicle:
 
     def decelerate(self, speed):
         self.speed -= speed
-        if self.speed < 0:
-            self.speed = 0
 
     def start(self):
         self.speed = 0

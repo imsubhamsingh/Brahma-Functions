@@ -1,0 +1,30 @@
+PYTHON = python3
+
+.PHONY: test format docs_help
+
+.DEFAULT_GOAL := help
+.PHONY: test help
+
+all: help
+
+test:
+    python tests/test_brahma_function.py
+
+clean: docs_clean
+
+docs_build:
+    cd docs && poetry run make html
+
+format:
+    poetry run black .
+
+docs_clean:
+    $(MAKE) -C docs clean
+
+help:
+	@echo "---------------HELP-----------------"
+    @echo 'test                - run unit tests'
+    @echo 'format              - run code formatters'
+    @echo 'docs_clean          - clean the documentation build artifacts'
+    @echo 'docs_build          - build the documentation'
+	@echo "------------------------------------"
