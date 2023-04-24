@@ -7,9 +7,10 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Import the module that contains the functions to be tested
 from brahma_functions import ai_func
 
-# Sample Tests
+
+# Sample Tests for the ai_func function
 def add_nums(num1, num2):
-    """This function adds two numbers together"""
+    """This function adds two numbers togetherr"""
 
 
 def merge_two_linkedlists_v1(l1, l2):
@@ -66,8 +67,12 @@ class Vehicle:
 
 
 if __name__ == "__main__":
-    ai_func(add_nums)
-    ai_func(merge_two_linkedlists_v1)
-    ai_func(merge_two_linkedlists_v2)
-    ai_func(Car)
-    ai_func(Vehicle)
+    # ai_func(add_nums)
+    # ai_func(merge_two_linkedlists_v1)
+    # ai_func(merge_two_linkedlists_v2)
+    # ai_func(Car)
+    # ai_func(Vehicle)
+    ai_func(add_nums, generate_tests=True)
+    ai_func(merge_two_linkedlists_v1, generate_tests=True)
+    ai_func(Vehicle, generate_tests=True)
+    ai_func("a")

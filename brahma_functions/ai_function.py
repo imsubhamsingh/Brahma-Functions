@@ -20,13 +20,15 @@ model = "text-davinci-003"
 DEBUG = True
 
 
-@functools.lru_cache(maxsize=None)
-def ai_func(obj, prompt=None, *args, **kwargs):
+# @functools.lru_cache(maxsize=None)
+def ai_func(obj, prompt=None, generate_tests=False, *args, **kwargs):
     """
     This function uses GPT to generate code for the given function signature.
     args:
         func: the function to generate code for
         language: the language to use for the code generation
+        backup: whether to backup the generated code
+        generate_tests: whether to generate tests for the function
     returns:
         the generated code
     """
@@ -37,6 +39,7 @@ def ai_func(obj, prompt=None, *args, **kwargs):
         # get the function arguments and comments
         argspec = inspect.getfullargspec(obj)
         comments = inspect.getdoc(obj)
+        print(generate_tests)
 
         # build the prompt
         if prompt is None:
@@ -47,6 +50,11 @@ def ai_func(obj, prompt=None, *args, **kwargs):
                 + "\n\n"
                 + (f"Here are the comments:\n{comments}\n\n" if comments else "")
             )
+
+            if generate_tests:
+                print(f"Generating tests for function {obj.__name__}...")
+                prompt += "Also Write few test for this above function in the end of the file:\n"
+
     elif inspect.isclass(obj):
         # get the class attributes and comments
         class_members = inspect.getmembers(obj, lambda a: not (inspect.isroutine(a)))
@@ -81,22 +89,30 @@ def ai_func(obj, prompt=None, *args, **kwargs):
                     if method_comments
                     else ""
                 )
+        if generate_tests:
+            print(f"Generating tests for class {obj.__name__}...")
+            prompt += "\n\n"
+            prompt += (
+                "Also Write few test for this above class in the end of the file:\n"
+            )
+    else:
+        raise ValueError("The given object is not a function or class.")
 
     if DEBUG:
         print(prompt)
 
-    CACHE_DIR = "generated_code"
-    CACHE_FILE = f"{obj.__name__}.py"
-    CACHE_FILE_PATH = f"{CACHE_DIR}/{CACHE_FILE}"
+    BACKUP_DIR = "generated_code"
+    SOURCE_CODE_FILE = f"{obj.__name__}.py"
+    SOURCE_CODE_FILE_PATH = f"{BACKUP_DIR}/{SOURCE_CODE_FILE}"
 
-    # check if the code has already been generated
-    if os.path.exists(CACHE_FILE_PATH):
+    # check if the source code has already been generated
+    if os.path.exists(SOURCE_CODE_FILE_PATH):
         # Ask the user if they want to use the cached code
         regenerate = input(
-            f"Code for '{CACHE_FILE}' already exists. Regenerate (y/n)?: "
+            f"Code for '{SOURCE_CODE_FILE}' already exists. Regenerate (y/n)?: "
         )
         if regenerate.lower() == "n":
-            with open(CACHE_FILE_PATH, "r") as f:
+            with open(SOURCE_CODE_FILE_PATH, "r") as f:
                 return f.read()
 
     # generate the code using GPT
@@ -111,16 +127,17 @@ def ai_func(obj, prompt=None, *args, **kwargs):
 
     # extract and return the genetrated code
     generated_code = response.choices[0].text.strip()
+    print(generated_code)
 
     # format the generated code
     generated_code = _format_python_code(generated_code)
 
     if backup:
-        # write the generated code to a file
-        if not os.path.exists(CACHE_DIR):
-            os.mkdir(CACHE_DIR)
-        with open(f"{CACHE_FILE_PATH}", "w") as f:
-            print(f"Writing generated code to {CACHE_FILE_PATH}")
+        # write the generated source code to a file
+        if not os.path.exists(SOURCE_CODE_FILE_PATH):
+            os.mkdir(BACKUP_DIR)
+        with open(f"{SOURCE_CODE_FILE_PATH}", "w") as f:
+            print(f"Writing generated code to {SOURCE_CODE_FILE_PATH}")
             f.write(generated_code)
 
     return generated_code
