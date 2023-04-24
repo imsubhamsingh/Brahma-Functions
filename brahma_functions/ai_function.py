@@ -20,7 +20,7 @@ model = "text-davinci-003"
 DEBUG = True
 
 
-# @functools.lru_cache(maxsize=None)
+@functools.lru_cache(maxsize=128)
 def ai_func(obj, prompt=None, generate_tests=False, *args, **kwargs):
     """
     This function uses GPT to generate code for the given function signature.
