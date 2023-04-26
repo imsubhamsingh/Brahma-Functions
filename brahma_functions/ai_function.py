@@ -14,14 +14,17 @@ import inspect
 import functools
 import openai
 from .formatters import _format_python_code
+from .models import talk_to_gpt3, talk_to_gpt3_turbo, talk_to_gpt4
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
-model = "text-davinci-003"
+model = "gpt-3.5-turbo"
 DEBUG = True
 
 
 @functools.lru_cache(maxsize=128)
-def ai_func(obj, prompt=None, generate_tests=False, *args, **kwargs):
+def ai_func(
+    obj, prompt=None, generate_tests=False, model="text-davinci-003", *args, **kwargs
+):
     """
     This function uses GPT to generate code for the given function signature.
     args:
@@ -29,6 +32,7 @@ def ai_func(obj, prompt=None, generate_tests=False, *args, **kwargs):
         language: the language to use for the code generation
         backup: whether to backup the generated code
         generate_tests: whether to generate tests for the function
+        model: the GPT model to use for the code generation
     returns:
         the generated code
     """
@@ -115,15 +119,15 @@ def ai_func(obj, prompt=None, generate_tests=False, *args, **kwargs):
             with open(SOURCE_CODE_FILE_PATH, "r") as f:
                 return f.read()
 
-    # generate the code using GPT
-    response = openai.Completion.create(
-        engine=model,
-        prompt=prompt,
-        max_tokens=1024,
-        n=1,
-        temperature=0.7,
-        stop=None,
-    )
+    # generate the code using GPT Model
+    if model == "text-davinci-003":
+        response = talk_to_gpt3(prompt)
+    elif model == "gpt-3.5-turbo":
+        response = talk_to_gpt3_turbo(prompt)
+    elif model == "gpt-4":
+        response = talk_to_gpt4(prompt)
+    else:
+        raise ValueError("The given model is not supported.")
 
     # extract and return the genetrated code
     generated_code = response.choices[0].text.strip()
