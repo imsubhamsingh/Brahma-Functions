@@ -14,11 +14,8 @@ import inspect
 import functools
 import openai
 from .formatters import _format_python_code
+from brahma_functions import settings
 from .models import talk_to_gpt3, talk_to_gpt3_turbo, talk_to_gpt4
-
-openai.api_key = os.getenv("OPENAI_API_KEY")
-model = "gpt-3.5-turbo"
-DEBUG = True
 
 
 @functools.lru_cache(maxsize=128)
@@ -102,7 +99,7 @@ def ai_func(
     else:
         raise ValueError("The given object is not a function or class.")
 
-    if DEBUG:
+    if settings.DEBUG:
         print(prompt)
 
     BACKUP_DIR = "generated_code"
