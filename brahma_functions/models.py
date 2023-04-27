@@ -21,16 +21,14 @@ talk_to_gpt3 = lambda prompt: openai.Completion.create(
 
 talk_to_gpt3_turbo = lambda prompt: openai.ChatCompletion.create(
     model=GPT3_5_TURBO,
-    prompt=prompt,
     messages=[
-        {"role": "Engineer", "text": prompt},
+        {"role": "user", "content": prompt},
     ],
 )
 
-talk_to_gpt4 = lambda prompt: openai.Completion.create(
-    engine=GPT4,
-    prompt=prompt,
+talk_to_gpt4 = lambda prompt: openai.ChatCompletion.create(
+    model=GPT4,
     messages=[
-        {"role": "Engineer", "text": prompt},
+        {"role": "user", "content": prompt},
     ],
 )
