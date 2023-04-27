@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 
 class CodePromptGenerator(ABC):
     """
-    This is an abstract class that is used to generate code.
+    This is an abstract class that is used to generate prompt code.
     """
 
     @abstractmethod
@@ -37,9 +37,7 @@ class PythonPromptGenerator(CodePromptGenerator):
             The prompt to be displayed to the user.
         """
         generate_tests = kwargs.get("generate_tests")
-        print(f"generate_tests_gen: {generate_tests}")
-        print(f"kwargs_gen: {kwargs}")
-        print(type(obj))
+
         if inspect.isfunction(obj):
             # get the function arguments and comments
             argspec = inspect.getfullargspec(obj)

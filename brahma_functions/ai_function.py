@@ -79,11 +79,9 @@ def ai_func(
         response = gpt_response.choices[0].text.strip()
     elif model == "gpt-3.5-turbo":
         gpt_response = talk_to_gpt3_turbo(prompt)
-        print(f"gpt_response: {gpt_response}")
         response = gpt_response.choices[0].message["content"].strip()
     elif model == "gpt-4":
         gpt_response = talk_to_gpt4(prompt)
-        print(f"gpt_response: {gpt_response}")
         response = gpt_response.choices[0].message["content"].strip()
     else:
         raise ValueError("The given model is not supported.")
