@@ -86,5 +86,21 @@ if __name__ == "__main__":
     # )
     # ai_func(merge_two_linkedlists_v1, generate_tests=True, backup=False, mode="gpt-4")
     # ai_func(merge_two_linkedlists_v1, generate_tests=True)
-    ai_func(Vehicle, generate_tests=True, backup=False, mode="gpt-4")
-    # ai_func("a")
+    # ai_func(Vehicle, generate_tests=True, backup=False, mode="gpt-4")
+    ai_func(
+        add_nums,
+        generate_tests=True,
+        backup=True,
+        language="python",
+        model="gpt-3.5-turbo",
+    )
+    ai_func(
+        add_nums,
+        generate_tests=True,
+        backup=True,
+        language="java",
+        model="gpt-3.5-turbo",
+    )
+    # ai_func(add_nums, generate_tests=True, backup=True, model="text-davinci-003", language="python")
+    # ai_func(add_nums, generate_tests=True, backup=False, language="python", model="gpt-4")
+    # ai_func(add_nums)

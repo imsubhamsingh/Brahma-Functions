@@ -5,11 +5,8 @@ def add_nums(num1, num2):
     return num1 + num2
 
 
-# Test 1
-assert add_nums(3, 4) == 7
-
-# Test 2
-assert add_nums(-2, 3) == 1
-
-# Test 3
-assert add_nums(10.5, 5.4) == 15.9
+# Some tests for the function
+assert add_nums(2, 3) == 5
+assert add_nums(0, 0) == 0
+assert add_nums(-5, 5) == 0
+assert add_nums(2.5, 3.7) == 6.2
