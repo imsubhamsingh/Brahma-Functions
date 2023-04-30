@@ -111,3 +111,48 @@ def ai_func(
         except Exception as e:
             print(f"ERROR: unable to backup generated code: {e}")
     return generated_code
+
+
+# handle the case where the user passes a string instead of a function object
+def get_func_obj_from_str(func_str):
+    """
+    handle the case where the user passes a string instead of a function object
+    """
+
+    # get the function name
+    func_name = func_str.split("(")[0].strip()
+    # split the function string by the first "(" and get the first part after "def"
+    func_name = func_name.split("def")[1].strip()
+
+    # get the function arguments
+    func_args = func_str.split("(")[1].split(")")[0].split(",")
+    func_args = [arg.strip() for arg in func_args]
+
+    # get the function body
+    func_body = func_str.split("):")[1].strip()
+
+    # get the function signature
+    func_signature = f"def {func_name}({', '.join(func_args)}):"
+
+    # get the function source code
+    func_source_code = f"{func_signature}\n    {func_body}"
+
+    # create a temporary file to store the function source code
+    with open("temp.py", "w") as f:
+        f.write(func_source_code)
+
+    # import the function from the temporary file
+    from temp import add_nums
+
+    obj = add_nums
+    # TODO: Handle case to delete the temp file
+    # os.remove("temp.py")
+
+    return obj
+
+
+# example usage
+func_str = """
+def add_nums(a, b, c):
+    return a + b
+"""
