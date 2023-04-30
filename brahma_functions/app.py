@@ -2,8 +2,14 @@ import streamlit as st
 from brahma_functions import ai_func
 
 
+def add(x, y):
+    """
+    This function adds two numbers.
+    """
+
+
 def app():
-    st.title("Brahma Functions")
+    st.title("Brahma Factory")
 
     # define input options
     func_type = st.radio(
@@ -24,19 +30,29 @@ def app():
     # get comments
     comments = st.text_area("Comments (optional):")
 
+    # select model and optimization
+    model = st.selectbox(
+        "Select a model:", ["gpt-3.5-turbo", "text-davinci-003", "gpt-4"]
+    )
+    optimize = st.checkbox("Optimize output code?")
+
     # generate code
     if st.button("Generate Code"):
         if func_type == "Function":
             code = ai_func(
-                obj=lambda x: None,
+                obj=add,
                 prompt=f"Write a function {name} that takes {num_args} arguments: {', '.join(args)}\n\nHere are the comments:\n{comments}\n\n",
                 generate_tests=generate_tests,
+                model=model,
+                optimize=optimize,
             )
         elif func_type == "Class":
             code = ai_func(
                 obj=lambda x: None,
                 prompt=f"Write a class {name} that has the following attributes: {', '.join(args)}\n\nHere are the comments:\n{comments}\n\n",
                 generate_tests=generate_tests,
+                model=model,
+                optimize=optimize,
             )
         st.code(code)
 

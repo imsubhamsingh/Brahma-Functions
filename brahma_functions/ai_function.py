@@ -46,6 +46,8 @@ def ai_func(
         "generate_tests": generate_tests,
         "optimize": optimize,
     }
+    if settings.DEBUG:
+        print(kwargs)
 
     # create the appropriate code generator based on the language argument
     if language == "python":
