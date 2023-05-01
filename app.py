@@ -21,7 +21,7 @@ def load_sidebar():
     col1, col2, col3 = st.sidebar.columns([1, 8, 1])
     with col1:
         st.write("")
-        # with col2:
+    with col2:
         st.image("images/brahma-func.jpg", use_column_width=True, width=200)
     with col3:
         st.write("")
