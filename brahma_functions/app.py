@@ -5,6 +5,16 @@ from brahma_functions import ai_func
 
 def app():
     st.title("Brahma Factory")
+    st.subheader(
+        "Generate code for your functions and classes using OpenAI's GPT-3 API"
+    )
+
+    # add an input for the OpenAI API key and make it hidden
+    api_key = st.text_input(
+        "Setup OpenAI API Key:", value=settings.OPENAI_API_KEY, type="password"
+    )
+    if api_key:
+        settings.set_openai_key(api_key)
 
     # define input options
     func_type = st.radio(
@@ -65,9 +75,10 @@ def app():
             )
         if settings.DEBUG:
             print(f"obj: {obj}") if obj else None
-        # display the generated code
-        st.subheader("Generated Code")
+
+        st.write("Generated Code:")
         st.code(code, language="python")
+        st.stop()
 
 
 if __name__ == "__main__":

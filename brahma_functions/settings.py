@@ -12,6 +12,12 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 openai.api_key = OPENAI_API_KEY
 
 
+def set_openai_key(key):
+    """Sets OpenAI key."""
+    openai.api_key = key
+    return True
+
+
 def list_available_engines():
     """Lists all available engines."""
     return openai.Engine.list()
