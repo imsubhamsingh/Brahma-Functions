@@ -7,6 +7,8 @@ PYTHON = python3
 
 all: help
 
+run:
+    python -m streamlit run app.py
 test:
     python tests/test_brahma_function.py
 

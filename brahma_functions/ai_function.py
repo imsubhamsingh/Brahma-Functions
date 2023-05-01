@@ -1,7 +1,7 @@
 ###########################################
 #                                         #
 #           Brahma Functions              #
-#             Version 0.1                 #
+#             Version 1.0                 #
 #                                         #
 #  This file contains the functions that  #
 #    are used in the Brahma project.      #
@@ -10,16 +10,14 @@
 
 
 import os
-import inspect
-import functools
-import openai
-from .formatters import _format_python_code
-from .generators import PythonPromptGenerator, JavaPromptGenerator
+from functools import lru_cache
 from brahma_functions import settings
-from .models import talk_to_gpt3, talk_to_gpt3_turbo, talk_to_gpt4
+from brahma_functions.formatters import _format_python_code
+from brahma_functions.factory import PythonPromptGenerator, JavaPromptGenerator
+from brahma_functions.models import talk_to_gpt3, talk_to_gpt3_turbo, talk_to_gpt4
 
 
-@functools.lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def ai_func(
     obj, prompt=None, generate_tests=False, model="gpt-3.5-turbo", *args, **kwargs
 ):
@@ -115,6 +113,7 @@ def ai_func(
 
 def get_func_obj_from_str(func_str):
     """
+    get the function object from the function string
     handle the case where the user passes a string instead of a function object
     """
 
@@ -157,6 +156,56 @@ def get_func_obj_from_str(func_str):
         obj = getattr(temp, func_name)
     except Exception as e:
         print(f"ERROR: Unable to import function from string: {e}")
+        obj = None
+    finally:
+        if "temp" in locals():
+            del temp
+        if "spec" in locals():
+            del spec
+        if "f" in locals():
+            f.close()
+        os.remove("temp.py")
+
+    return obj
+
+
+def get_class_obj_from_str(class_str):
+    """
+    get the class object from the given string
+    handle the case where the user passes a string instead of a class object
+    """
+    if ":" not in class_str:
+        raise ValueError("Class signature not found in input text")
+
+    # get the class name
+    class_name = class_str.split(":")[0].strip()
+    # split the class string by the first ":" and get the first part after "class"
+    class_name = class_name.split("class")[1].strip()
+
+    # get the class body
+    class_body = class_str.split(":")[1].strip()
+
+    # get the class signature
+    class_signature = f"class {class_name}:"
+
+    # get the class source code
+    class_source_code = f"{class_signature}\n    {class_body}"
+
+    # create a temporary file to store the class source code
+
+    with open("temp.py", "w") as f:
+        f.write(class_source_code)
+
+    try:
+        # import the class from the temporary file
+        import importlib.util
+
+        spec = importlib.util.spec_from_file_location("temp", "temp.py")
+        temp = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(temp)
+        obj = getattr(temp, class_name)
+    except Exception as e:
+        print(f"ERROR: Unable to import class from string: {e}")
         obj = None
     finally:
         if "temp" in locals():
