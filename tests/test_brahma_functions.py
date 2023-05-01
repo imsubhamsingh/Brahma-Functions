@@ -112,4 +112,4 @@ if __name__ == "__main__":
     # ai_func(add_nums, generate_tests=True, backup=False, language="python", model="gpt-4")
     # ai_func(add_nums)
 
-    get_func_obj_from_str(func_str)
+    print(get_func_obj_from_str(func_str))

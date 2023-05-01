@@ -113,7 +113,6 @@ def ai_func(
     return generated_code
 
 
-# handle the case where the user passes a string instead of a function object
 def get_func_obj_from_str(func_str):
     """
     handle the case where the user passes a string instead of a function object
@@ -142,9 +141,13 @@ def get_func_obj_from_str(func_str):
         f.write(func_source_code)
 
     # import the function from the temporary file
-    from temp import add_nums
+    import importlib.util
 
-    obj = add_nums
+    spec = importlib.util.spec_from_file_location("temp", "temp.py")
+    temp = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(temp)
+    obj = getattr(temp, func_name)
+
     # TODO: Handle case to delete the temp file
     # os.remove("temp.py")
 
