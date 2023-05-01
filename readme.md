@@ -1,5 +1,5 @@
-# 🪷 Brahma-Functions ⚡️
-The future of function decoration.
+#  𝞫(𝔁) Brahma Functions
+Ai powered function that generated codes based on function/class signature at runtime using OpenAI GPT model. 
 
 <img src="https://user-images.githubusercontent.com/24203687/233804138-f569c98c-8c4b-45a5-9c5f-9ef8b40036ef.jpg" width="900" height="500">
 
