@@ -5,7 +5,18 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import the module that contains the functions to be tested
-from brahma_functions import ai_func
+from brahma_functions import ai_func, get_func_obj_from_str
+
+
+# Sample Tests for the get_func_obj_from_str
+func_str = """
+def add_nums(a, b, c):
+    return a + b
+"""
+func_str1 = """
+def merge_two_linkedlists_v1(l1, l2):
+
+"""
 
 
 # Sample Tests for the ai_func function
@@ -87,20 +98,23 @@ if __name__ == "__main__":
     # ai_func(merge_two_linkedlists_v1, generate_tests=True, backup=False, mode="gpt-4")
     # ai_func(merge_two_linkedlists_v1, generate_tests=True)
     # ai_func(Vehicle, generate_tests=True, backup=False, mode="gpt-4")
-    ai_func(
-        add_nums,
-        generate_tests=True,
-        backup=True,
-        language="python",
-        model="gpt-3.5-turbo",
-    )
-    ai_func(
-        add_nums,
-        generate_tests=True,
-        backup=True,
-        language="java",
-        model="gpt-3.5-turbo",
-    )
+    # ai_func(
+    #     add_nums,
+    #     generate_tests=True,
+    #     backup=True,
+    #     language="python",
+    #     model="gpt-3.5-turbo",
+    # )
+    # ai_func(
+    #     add_nums,
+    #     generate_tests=True,
+    #     backup=True,
+    #     language="java",
+    #     model="gpt-3.5-turbo",
+    # )
     # ai_func(add_nums, generate_tests=True, backup=True, model="text-davinci-003", language="python")
     # ai_func(add_nums, generate_tests=True, backup=False, language="python", model="gpt-4")
     # ai_func(add_nums)
+
+    print(get_func_obj_from_str(func_str))
+    print(get_func_obj_from_str(func_str1))
