@@ -1,4 +1,5 @@
 import streamlit as st
+from brahma_functions import settings
 from brahma_functions import ai_func
 
 
@@ -10,16 +11,16 @@ def app():
         "What type of function would you like to generate?",
         ("Function", "Class"),
     )
-    generate_tests = st.checkbox("Generate tests?")
 
     # take code input
     st.subheader("Code Input")
     # determine if the user wants to generate code for a function or a class
     if func_type == "Function":
         code_input = st.text_area("Write the function name below:")
-        from brahma_functions import get_func_obj_from_str
+        if code_input:
+            from brahma_functions import get_func_obj_from_str
 
-        obj = get_func_obj_from_str(code_input)
+            obj = get_func_obj_from_str(code_input)
 
     elif func_type == "Class":
         code_input = st.text_area("Write the class name below:")
@@ -33,6 +34,8 @@ def app():
     # get comments
     comments = st.text_area("Comments (optional):")
 
+    generate_tests = st.checkbox("Generate tests?")
+
     # select model and optimization
     model = st.selectbox(
         "Select a model:", ["gpt-3.5-turbo", "text-davinci-003", "gpt-4"]
@@ -42,13 +45,16 @@ def app():
     # generate code
     if st.button("Generate Code"):
         if func_type == "Function":
-            code = ai_func(
-                obj=obj,
-                # prompt=f"Write a function {name} that takes {num_args} arguments: {', '.join(args)}\n\nHere are the comments:\n{comments}\n\n",
-                generate_tests=generate_tests,
-                model=model,
-                optimize=optimize,
-            )
+            try:
+                code = ai_func(
+                    obj=obj,
+                    # prompt=f"Write a function {name} that takes {num_args} arguments: {', '.join(args)}\n\nHere are the comments:\n{comments}\n\n",
+                    generate_tests=generate_tests,
+                    model=model,
+                    optimize=optimize,
+                )
+            except NameError:
+                raise ValueError("Function name not found in input text")
         elif func_type == "Class":
             code = ai_func(
                 obj=obj,
@@ -57,9 +63,11 @@ def app():
                 model=model,
                 optimize=optimize,
             )
-
+        if settings.DEBUG:
+            print(f"obj: {obj}") if obj else None
         # display the generated code
-        st.code(code)
+        st.subheader("Generated Code")
+        st.code(code, language="python")
 
 
 if __name__ == "__main__":

@@ -13,6 +13,10 @@ func_str = """
 def add_nums(a, b, c):
     return a + b
 """
+func_str1 = """
+def merge_two_linkedlists_v1(l1, l2):
+
+"""
 
 
 # Sample Tests for the ai_func function
@@ -113,3 +117,4 @@ if __name__ == "__main__":
     # ai_func(add_nums)
 
     print(get_func_obj_from_str(func_str))
+    print(get_func_obj_from_str(func_str1))

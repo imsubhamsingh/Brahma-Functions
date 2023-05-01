@@ -61,7 +61,7 @@ def ai_func(
     prompt = generator.generate_prompt(obj, prompt, *args, **kwargs)
 
     if settings.DEBUG:
-        print(prompt)
+        print(f"Prompt: {prompt}")
 
     BACKUP_DIR = "generated_code"
     SOURCE_CODE_FILE = f"{obj.__name__}.py"
@@ -118,14 +118,21 @@ def get_func_obj_from_str(func_str):
     handle the case where the user passes a string instead of a function object
     """
 
+    if "(" not in func_str:
+        raise ValueError("Function signature not found in input text")
+
     # get the function name
     func_name = func_str.split("(")[0].strip()
     # split the function string by the first "(" and get the first part after "def"
     func_name = func_name.split("def")[1].strip()
 
     # get the function arguments
-    func_args = func_str.split("(")[1].split(")")[0].split(",")
-    func_args = [arg.strip() for arg in func_args]
+    func_args_list = func_str.split("(")[1]
+    if len(func_args_list) == 0:
+        func_args = []
+    else:
+        func_args = func_args_list.split(")")[0].split(",")
+        func_args = [arg.strip() for arg in func_args]
 
     # get the function body
     func_body = func_str.split("):")[1].strip()
@@ -140,22 +147,24 @@ def get_func_obj_from_str(func_str):
     with open("temp.py", "w") as f:
         f.write(func_source_code)
 
-    # import the function from the temporary file
-    import importlib.util
+    try:
+        # import the function from the temporary file
+        import importlib.util
 
-    spec = importlib.util.spec_from_file_location("temp", "temp.py")
-    temp = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(temp)
-    obj = getattr(temp, func_name)
-
-    # TODO: Handle case to delete the temp file
-    # os.remove("temp.py")
+        spec = importlib.util.spec_from_file_location("temp", "temp.py")
+        temp = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(temp)
+        obj = getattr(temp, func_name)
+    except Exception as e:
+        print(f"ERROR: Unable to import function from string: {e}")
+        obj = None
+    finally:
+        if "temp" in locals():
+            del temp
+        if "spec" in locals():
+            del spec
+        if "f" in locals():
+            f.close()
+        os.remove("temp.py")
 
     return obj
-
-
-# example usage
-func_str = """
-def add_nums(a, b, c):
-    return a + b
-"""
