@@ -5,7 +5,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import the module that contains the functions to be tested
-from brahma_functions import ai_func, get_func_obj_from_str
+from brahma_functions import ai_func, get_func_obj_from_str, ai_fn
 
 
 # Sample Tests for the get_func_obj_from_str
@@ -77,6 +77,16 @@ class Vehicle:
         pass
 
 
+# Test the @ai_fn decorator
+@ai_fn(generate_tests=True)
+def product_of_two_array(arr1, arr2):
+    """This function returns the product of two arrays"""
+
+
+test_ai_fn1 = product_of_two_array([1, 2, 3], [4, 5, 6])
+test_ai_fn2 = product_of_two_array([], [4, 5, 6])
+
+
 if __name__ == "__main__":
     # ai_func(add_nums)
     # ai_func(merge_two_linkedlists_v1)
@@ -116,5 +126,8 @@ if __name__ == "__main__":
     # ai_func(add_nums, generate_tests=True, backup=False, language="python", model="gpt-4")
     # ai_func(add_nums)
 
-    print(get_func_obj_from_str(func_str))
-    print(get_func_obj_from_str(func_str1))
+    # print(get_func_obj_from_str(func_str))
+    # print(get_func_obj_from_str(func_str1))
+
+    print(test_ai_fn1)
+    print(test_ai_fn2)

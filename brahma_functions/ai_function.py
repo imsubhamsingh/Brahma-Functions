@@ -10,7 +10,7 @@
 
 
 import os
-from functools import lru_cache
+from functools import lru_cache, partial, wraps
 from brahma_functions import settings
 from brahma_functions.formatters import _format_python_code
 from brahma_functions.factory import PythonPromptGenerator, JavaPromptGenerator
@@ -217,3 +217,31 @@ def get_class_obj_from_str(class_str):
         os.remove("temp.py")
 
     return obj
+
+
+def ai_fn(func=None, **config_kwargs):
+    """
+    AI decorator @ai_func that can be used to decorate any function
+    which will call the ai_func() to generate the function body
+    usage:
+        @ai_func(model="text-davinci-003", optimize=False)
+        def add(a, b):
+            pass
+    args:
+        func: the function to be decorated
+        config_kwargs: the configuration parameters for ai_func()
+
+    returns:
+        the generated function body
+    """
+    if func is None:
+        return partial(ai_fn, **config_kwargs)
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        # call the ai_func() to generate the function body
+        func_body = ai_func(obj=func, **config_kwargs)
+
+        return func_body
+
+    return wrapper
