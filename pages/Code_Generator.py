@@ -93,25 +93,39 @@ def app():
     """
     language = st.selectbox(
         "Select a language:",
-        ["Python", "JavaScript", "Java", "C++", "C#", "Go", "PHP", "Ruby", "Swift"],
+        [
+            "Python",
+            "JavaScript",
+            "Java",
+            "C",
+            "C++",
+            "C#",
+            "Go",
+            "PHP",
+            "Ruby",
+            "Swift",
+        ],
     )
-
     # list versions of the language
     if language == "Python":
         version = st.selectbox(
             "Select a version:",
             ["3", "2"],
         )
-
     elif language == "JavaScript":
         version = st.selectbox(
             "Select a version:",
-            ["ES6", "ES5"],
+            ["ES6", "ES5", "Rhino1.7", "Nodejs v18.15.0"],
         )
     elif language == "Java":
         version = st.selectbox(
             "Select a version:",
-            ["11", "8"],
+            ["14", "11", "8"],
+        )
+    elif language == "C":
+        version = st.selectbox(
+            "Select a version:",
+            ["GCC 10.3", "GCC 9.3", "GCC 8.4"],
         )
     elif language == "C++":
         version = st.selectbox(
@@ -136,12 +150,12 @@ def app():
     elif language == "Ruby":
         version = st.selectbox(
             "Select a version:",
-            ["2.7", "2.6", "2.5"],
+            ["3.0", "2.7", "2.6", "2.5"],
         )
     elif language == "Swift":
         version = st.selectbox(
             "Select a version:",
-            ["5.3", "5.2", "5.1"],
+            ["5.3", "5.2", "5.1", "4.2", "4.1"],
         )
     else:
         st.error("Please select a language.")
@@ -237,7 +251,6 @@ def app():
             generated_code = response
             st.write("Generated Code:")
             st.code(generated_code)
-            st.stop()
         else:
             st.error("Please select a code type.")
             return

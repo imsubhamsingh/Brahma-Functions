@@ -71,6 +71,7 @@ def app():
         "##### 🚀 Support for multiple programming languages\n"
         "##### 🚀 Support for multiple language versions\n"
         "##### 🚀 Code generation for functions, classes, and methods\n"
+        "##### 🚀 Code stubs and docstrings generation\n"
         "##### 🚀 Customizable code templates\n"
         "##### 🚀 Test generation\n"
         "##### 🚀 Support for multiple AI models\n"
@@ -101,14 +102,15 @@ def app():
 
     st.markdown(
         "##### 1. Python [3, 2]\n"
-        "##### 2. C# [9, 8, 7]\n"
+        "##### 2. C [10.3, 9.3, 8.4]\n"
         "##### 3. C++ [17, 14, 11]\n"
-        "##### 4. Java [11, 8]\n"
-        "##### 5. JavaScript [ES7, ES6, ES5]\n"
-        "##### 6. Go [1.14, 1.14, 1.13]\n"
+        "##### 4. C# [9, 8, 7]\n"
+        "##### 4. Java [14, 11, 8]\n"
+        "##### 5. JavaScript [ES6, ES5, Rhino1.7, Nodejs v18.15.0]\n"
+        "##### 6. Go [1.15, 1.14, 1.13]\n"
         "##### 7. PHP [7.4, 7.3, 7.2]\n"
-        "##### 8. Ruby [2.7, 2.6, 2.5]\n"
-        "##### 9. Swift [5.3, 5.2, 5.1]\n"
+        "##### 8. Ruby [3.0, 2.7, 2.6, 2.5]\n"
+        "##### 9. Swift [5.3, 5.2, 5.1, 4.2, 4.1]\n"
     )
 
     st.markdown("## Supported AI Models")
