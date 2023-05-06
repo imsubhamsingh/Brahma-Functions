@@ -14,7 +14,31 @@ openai.api_key = OPENAI_API_KEY
 
 def set_openai_key(key):
     """Sets OpenAI key."""
+    os.environ["OPENAI_API_KEY"] = key
     openai.api_key = key
+    return True
+
+
+def get_openai_key():
+    """Gets OpenAI key."""
+    return openai.api_key
+
+
+def is_openai_key_set():
+    """Checks if OpenAI key is set."""
+    try:
+        if openai.api_key:
+            return True
+        else:
+            return False
+    except:
+        return False
+
+
+def reset_openai_key():
+    """Resets OpenAI key."""
+    os.environ["OPENAI_API_KEY"] = ""
+    openai.api_key = ""
     return True
 
 
