@@ -150,7 +150,12 @@ def app():
     # Determine if the user wants to generate code for a function or a class
     # TODO: Add support for class and method
 
-    options = ["Function", "Class", "Method"]
+    options = [
+        "Function",
+        "Code Stub",
+        "Class",
+        "Method",
+    ]
     disabled_options = ["Class", "Method"]
 
     code_type = st.selectbox(
@@ -160,13 +165,13 @@ def app():
         format_func=lambda x: x if x not in disabled_options else f"{x} (coming soon)",
     )
 
-    if code_type != "Function":
+    if code_type != "Function" and code_type != "Code Stub":
         st.stop()
 
     prompt = ""
 
     # determine if the user wants to generate code for a function or a class
-    if code_type == "Function":
+    if code_type in ["Function", "Code Stub"]:
         # take language config input eg. function_name, function_docstring, function_params, return_type, return_statement
         function_name = st.text_input("Function Name", placeholder="find_duplicate")
         function_docstring = st.text_input(
@@ -182,13 +187,22 @@ def app():
         return_type = st.text_input("Return Type", placeholder="list")
         # return_statement = st.text_input("Return Statement", placeholder="return duplicate")
 
-    prompt = (
-        f"Act as {language} language interpreter with version {version}.\n"
-        f"Write a function {function_name} that takes {num_params} arguments: {', '.join(params)}"
-        + f" and returns {return_type}.\n"
-        f"Here is a docstring for the function: {function_docstring}\n\n"
-        + "Do not include any other explanatory text in your response.\n\n"
-    )
+        prompt = (
+            f"Act as {language} language specialist with version {version}.\n"
+            f"Write a function {function_name} that takes {num_params} arguments: {', '.join(params)}"
+            + f" and returns {return_type}.\n"
+            f"Here is a docstring for the function: {function_docstring}\n\n"
+            + "Do not include any other explanatory text in your response.\n\n"
+        )
+
+    if code_type == "Code Stub":
+        prompt = (
+            f"Act as {language} language specialist with version {version}.\n"
+            f"Generate code stub for function {function_name} that takes {num_params} arguments: {', '.join(params)}"
+            + f" and returns {return_type} with proper docstrings.\n"
+            + "Don't write the implementation of the function. Also write the main function to test the function.\n\n"
+            + "Do not include any other explanatory text in your response.\n\n"
+        )
 
     generate_tests = st.checkbox("Generate tests?")
 
@@ -197,6 +211,7 @@ def app():
 
         prompt += f"Also write {num_tests} tests cases for the function:\n\n"
 
+    st.write(prompt)
     # select model and optimization
     model = st.selectbox(
         "Select a model:", ["gpt-3.5-turbo", "text-davinci-003", "gpt-4"]
@@ -206,7 +221,7 @@ def app():
 
     # generate code
     if st.button("Generate Code", type="primary"):
-        if code_type == "Function":
+        if code_type in ["Function", "Code Stub"]:
             if model == "text-davinci-003":
                 gpt_response = talk_to_gpt3(prompt)
                 response = gpt_response.choices[0].text.strip()
