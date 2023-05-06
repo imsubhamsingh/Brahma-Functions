@@ -13,7 +13,7 @@ setup:
 	poetry shell
 
 run:
-	python -m streamlit run app.py
+	python -m streamlit run Home.py
 
 test:
 	python tests/test_ai_func.py
