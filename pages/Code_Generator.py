@@ -197,8 +197,6 @@ def app():
 
         prompt += f"Also write {num_tests} tests cases for the function:\n\n"
 
-    st.write(prompt)
-
     # select model and optimization
     model = st.selectbox(
         "Select a model:", ["gpt-3.5-turbo", "text-davinci-003", "gpt-4"]
