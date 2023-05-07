@@ -3,6 +3,7 @@ import streamlit as st
 from brahma_functions import settings
 from brahma_functions import ai_func
 from brahma_functions.models import talk_to_gpt3, talk_to_gpt3_turbo, talk_to_gpt4
+from brahma_functions.constants import LANG_TO_FILE_EXTENSION
 
 # Configure logger
 logging.basicConfig(format="\n%(asctime)s\n%(message)s", level=logging.INFO, force=True)
@@ -204,18 +205,18 @@ def app():
         prompt = (
             f"Act as {language} language specialist with version {version}.\n"
             f"Write a function {function_name} that takes {num_params} arguments: {', '.join(params)}"
-            + f" and returns {return_type}.\n"
+            + f" and return {return_type} type.\n"
             f"Here is a docstring for the function: {function_docstring}\n\n"
-            + "Do not include any other explanatory text in your response.\n\n"
+            + "Do not include any other explanatory text in your response and generate as code file without any (```)delimiters.\n\n"
         )
 
     if code_type == "Code Stub":
         prompt = (
             f"Act as {language} language specialist with version {version}.\n"
             f"Generate code stub for function {function_name} that takes {num_params} arguments: {', '.join(params)}"
-            + f" and returns {return_type} with proper docstrings.\n"
+            + f" and return {return_type} type with docstrings.\n\n"
             + "Don't write the implementation of the function. Also write the main function to test the function.\n\n"
-            + "Do not include any other explanatory text in your response.\n\n"
+            + "Do not include any other explanatory text in your response and generate as code file without any (```)delimiters.\n\n"
         )
 
     generate_tests = st.checkbox("Generate tests?")
@@ -223,9 +224,11 @@ def app():
     if generate_tests:
         num_tests = st.number_input("Number of Tests", min_value=0, step=1)
 
-        prompt += f"Also write {num_tests} tests cases for the function:\n\n"
+        if num_tests > 0:
+            prompt += (
+                f"Generate {num_tests} tests for the function {function_name}.\n\n"
+            )
 
-    st.write(prompt)
     # select model and optimization
     model = st.selectbox(
         "Select a model:", ["gpt-3.5-turbo", "text-davinci-003", "gpt-4"]
@@ -251,6 +254,45 @@ def app():
             generated_code = response
             st.write("Generated Code:")
             st.code(generated_code)
+
+            if language == "Python":
+                if version == "2":
+                    extension = "py"
+                else:
+                    extension = "py3"
+            elif language == "JavaScript":
+                if version == "Nodejs v18.15.0":
+                    extension = "njs"
+                else:
+                    extension = "js"
+            elif language == "Java":
+                if version == "8":
+                    extension = "java8"
+                elif version == "11":
+                    extension = "java11"
+                else:
+                    extension = "java14"
+            elif language == "C++":
+                if version == "17":
+                    extension = "cpp17"
+                elif version == "14":
+                    extension = "cpp14"
+                else:
+                    extension = "cpp11"
+            else:
+                extension = LANG_TO_FILE_EXTENSION.get(language, "txt")
+
+            # Write code to file and download
+            # TODO: Add support for USER DEFINED FILE PATH
+            # with open(f"{function_name}.{extension}", "w") as f:
+            btn = st.download_button(
+                label="Download File",
+                data=generated_code,
+                file_name=f"{function_name}.{extension}",
+                mime="text/plain",
+            )
+            if btn:
+                st.write("Downloaded")
         else:
             st.error("Please select a code type.")
             return

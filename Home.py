@@ -71,16 +71,17 @@ def app():
         "##### 🚀 Support for multiple programming languages\n"
         "##### 🚀 Support for multiple language versions\n"
         "##### 🚀 Code generation for functions, classes, and methods\n"
-        "##### 🚀 Code stubs and docstrings generation\n"
+        "##### 🚀 Code stubs and docstrings generation for functions\n"
         "##### 🚀 Customizable code templates\n"
-        "##### 🚀 Test generation\n"
+        "##### 🚀 Tests generation\n"
         "##### 🚀 Support for multiple AI models\n"
+        "##### 🚀 Download generated code as a file\n"
     )
     st.markdown("## Roadmap (coming soon)")
     st.markdown(
-        "###### 📌 Support for downloading generated code as a file.\n"
         "###### 📌 Support for uploading configuration files for generating code.\n"
-        "###### 📌 Support for code stubs and docstrings generation\n"
+        "###### 📌 Support for code stubs for class and docstrings generation\n"
+        "###### 📌 Support for adding custom test frameworks\n"
         "###### 📌 Support for generating code for multiple functions at once.\n"
         "###### 📌 Support for generating code for more programming languages and frameworks.\n"
         "###### 📌 Support for generating documentation and comments for the generated code automatically.\n"

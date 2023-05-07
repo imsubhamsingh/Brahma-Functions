@@ -1,3 +1,4 @@
+import ast
 import inspect
 
 
@@ -44,3 +45,11 @@ def get_function_arg_defaults(func):
 def get_function_arg_default_values(func):
     """Get the argument default values of a function."""
     return [arg.default for arg in get_function_arg_defaults(func)]
+
+
+def sanitize_code(code):
+    """
+    Sanitize the code to remove the extra newlines and spaces.
+    """
+    code = code.replace("```", "")
+    return code
