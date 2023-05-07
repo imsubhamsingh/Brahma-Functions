@@ -4,50 +4,10 @@ from brahma_functions import settings
 from brahma_functions import ai_func
 from brahma_functions.models import talk_to_gpt3, talk_to_gpt3_turbo, talk_to_gpt4
 from brahma_functions.constants import LANG_TO_FILE_EXTENSION
+from Home import load_sidebar
 
 # Configure logger
 logging.basicConfig(format="\n%(asctime)s\n%(message)s", level=logging.INFO, force=True)
-
-
-st.set_page_config(
-    page_title="Home",
-    page_icon="👋",
-)
-
-##########################################
-##  Title, Tabs, and Sidebar            ##
-##########################################
-
-
-def load_sidebar():
-    st.title("𝞫(𝔁) Brahma Functions")
-    st.markdown(
-        "<h5 style='text-align: center; color: black;'>Empower your code with the divine functions of Brahma</h1>",
-        unsafe_allow_html=True,
-    )
-
-    col1, col2, col3 = st.sidebar.columns([1, 8, 1])
-    with col1:
-        st.write("")
-    with col2:
-        st.image("images/brahma-func.jpg", use_column_width=True, width=200)
-    with col3:
-        st.write("")
-
-    st.sidebar.markdown(" ## Brahma Functions v2.0")
-    st.sidebar.markdown(
-        "Brahma Functions is an advanced AI function that leverages the power of GPT-3 to generate code from given functin config."
-    )
-    st.sidebar.info(
-        "Read more about how the function works and see the code on my [GitHub](https://github.com/imsubhamsingh/Brahma-Functions).",
-        icon="ℹ️",
-    )
-
-    st.sidebar.markdown(" ## About the Author")
-    st.sidebar.markdown("Subham Singh Rajput")
-    st.sidebar.markdown(
-        "Engineer @ [HackerEarth](https://www.hackerearth.com/) | [Twitter](https://twitter.com/imsubhamsingh) | [LinkedIn](https://www.linkedin.com/in/imsubhamsingh/) | [GitHub](https://github.com/imsubhamsingh) | [LeetCode](https://leetcode.com/iamsirius/)"
-    )
 
 
 ##########################################

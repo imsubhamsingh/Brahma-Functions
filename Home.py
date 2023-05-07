@@ -9,8 +9,8 @@ logging.basicConfig(format="\n%(asctime)s\n%(message)s", level=logging.INFO, for
 
 # Set page configuration
 st.set_page_config(
-    page_title="Home",
-    page_icon="👋",
+    page_title="Brahma Functions",
+    page_icon="images/brahma-func.jpg",
 )
 
 
