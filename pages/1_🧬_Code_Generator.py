@@ -190,9 +190,7 @@ def app():
             )
 
     # select model and optimization
-    model = st.selectbox(
-        "Select a model:", ["gpt-3.5-turbo", "text-davinci-003", "gpt-4"]
-    )
+    model = st.selectbox("Select a model:", ["gpt-3.5-turbo", "text-davinci-003"])
     # TODO: Add support for optimization
     # Optimize = st.checkbox("Optimize output code?")
 

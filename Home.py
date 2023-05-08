@@ -33,7 +33,7 @@ def load_sidebar():
 
     st.sidebar.markdown(" ## Brahma Functions v2.0")
     st.sidebar.markdown(
-        "Brahma Functions is an advanced AI function that leverages the power of GPT-3 to generate code from given functin config."
+        "Brahma Functions is an advanced AI function that leverages the power of OpenAI's GPT-3 to generate code from any required configurations."
     )
     st.sidebar.info(
         "Read more about how the function works and see the code on my [GitHub](https://github.com/imsubhamsingh/Brahma-Functions).",
@@ -116,7 +116,9 @@ def app():
 
     st.markdown("## Supported AI Models")
 
-    st.markdown("##### 1. GPT-3.5 \n" "##### 2. GPT-3.5 Turbo \n" "##### 3. GPT-4 \n")
+    st.markdown(
+        "##### 1. GPT-3.5 \n" "##### 2. GPT-3.5 Turbo \n" "##### 3. GPT-4 (coming soon)"
+    )
 
 
 if __name__ == "__main__":
