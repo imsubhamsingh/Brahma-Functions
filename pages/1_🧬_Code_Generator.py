@@ -4,7 +4,7 @@ from brahma_functions import settings
 from brahma_functions import ai_func
 from brahma_functions.models import talk_to_gpt3, talk_to_gpt3_turbo, talk_to_gpt4
 from brahma_functions.constants import LANG_TO_FILE_EXTENSION
-from Home import load_sidebar
+from Brahma_Functions import load_sidebar
 
 # Configure logger
 logging.basicConfig(format="\n%(asctime)s\n%(message)s", level=logging.INFO, force=True)
@@ -13,39 +13,6 @@ logging.basicConfig(format="\n%(asctime)s\n%(message)s", level=logging.INFO, for
 ##########################################
 ##      Brahma Functions logic          ##
 ##########################################
-
-
-def setup_api_key():
-    """
-    Setup the OpenAI API key to the environment variable. This is required to use the OpenAI API.
-    Also a refresh button to change the API key.
-    """
-    # if settings.is_openai_key_set():
-    #     return
-
-    api_key = st.text_input(
-        "Setup OpenAI API Key:", placeholder="sk-<OPENAI API KEY>", type="password"
-    )
-    st.markdown(
-        "Get your API Key from [OpenAI](https://platform.openai.com/account/api-keys/).",
-        unsafe_allow_html=True,
-    )
-    if api_key and api_key.startswith("sk-") and len(api_key) > 32:
-        settings.set_openai_key(api_key)
-        if settings.is_openai_key_set():
-            st.success("API Key set successfully.", icon="🔑")
-    else:
-        if api_key:
-            st.warning("Invalid API Key.", icon="🔑")
-
-    # Make a refresh button to reset the API key
-    if api_key:
-        if st.button("Reset API Key"):
-            if settings.is_openai_key_set():
-                settings.reset_openai_key()
-                st.success("API Key reset successfully.", icon="🔑")
-            else:
-                st.warning("No API Key set.", icon="🔑")
 
 
 def app():
@@ -257,6 +224,6 @@ def app():
 
 
 if __name__ == "__main__":
+    st.title("Automated Code Generation Tool")
     load_sidebar()
-    setup_api_key()
     app()
