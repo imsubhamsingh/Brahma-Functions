@@ -9,7 +9,7 @@ def app():
     st.markdown(
         """
         <div align='center'>
-            <img src='https://media.giphy.com/media/3o7aDcz3u24RLHjGGI/giphy.gif' width='300' height='300' />
+            <img src='https://media.giphy.com/media/Wa0TGmtDvwW3e/giphy.gif' width='480' height='290' />
         </div>
         """,
         unsafe_allow_html=True,
