@@ -90,15 +90,14 @@ def app():
     """
     st.title("𝞫(𝔁) Brahma Functions")
 
-    st.markdown(
-        "<h5 style='text-align: left; color: black;'>Empower your code with the divine functions of Brahma</h5>",
-        unsafe_allow_html=True,
-    )
+    st.caption("<Empower your code with the divine functions of Brahma>")
+
+    st.divider()
 
     st.write(
-        "Brahma Functions is a web framework that quickly generates code for a function in multiple programming languages. Users can choose the programming language, function name, docstring, parameters, and return type. The AI-powered tool produces accurate code that can be easily copied and pasted into a project. Users can also create test cases and select from various AI models for code generation, making coding easier for both experienced coders and novices."
+        "Welcome to Brahma Functions, the ultimate solution for generating high-quality accurate code quickly and easily. Our intuitive web app supports a range of programming languages and lets you customize function name, docstring, parameters, and return type with ease. With cutting-edge AI technology and a range of models, our tool streamlines the coding process and makes creating test cases a breeze. Whether you're a seasoned pro or a beginner, Brahma Functions simplifies the task of crafting top-notch code for your projects. Give it a go today and feel the difference!"
     )
-
+    st.divider()
     st.markdown("### Features")
     lines = [
         "🚀 AI-powered code generation",
@@ -112,6 +111,7 @@ def app():
     ]
     st.markdown("###### " + "\n###### ".join(lines))
 
+    st.divider()
     st.markdown(
         "### Supported Programming Languages"
         "\n- 🐍 Python"
@@ -125,7 +125,7 @@ def app():
         "\n- 💎 Ruby"
         "\n- 🕊️ Swift"
     )
-
+    st.divider()
     st.markdown("### Supported AI Models")
 
     st.markdown(
@@ -133,6 +133,8 @@ def app():
         "###### 2. GPT-3.5 Turbo \n"
         "###### 3. GPT-4 (coming soon) \n"
     )
+
+    st.divider()
 
     st.markdown("### Privacy Policy")
     st.markdown(
@@ -143,6 +145,9 @@ def app():
         "<style>div.markdown-text-container { background-color: #ADD8E6 }</style>",
         unsafe_allow_html=True,
     )
+
+    st.divider()
+
     st.markdown("### Getting Started")
     st.markdown(
         "To get started, simply enter your OpenAI API key below. If you don't have an OpenAI API key, you can sign up for one [here](https://platform.openai.com/accounts/api-keys)."
