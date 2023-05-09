@@ -1,10 +1,8 @@
 import logging
 import streamlit as st
-from brahma_functions import settings
-from brahma_functions import ai_func
 from brahma_functions.models import talk_to_gpt3, talk_to_gpt3_turbo, talk_to_gpt4
 from brahma_functions.constants import LANG_TO_FILE_EXTENSION
-from Brahma_Functions import load_sidebar
+from Brahma_Functions import load_sidebar, is_api_key_set
 
 # Configure logger
 logging.basicConfig(format="\n%(asctime)s\n%(message)s", level=logging.INFO, force=True)
@@ -225,5 +223,8 @@ def app():
 
 if __name__ == "__main__":
     st.title("Automated Code Generation Tool")
+    if not is_api_key_set():
+        st.warning("Please set your OpenAI API key to continue.")
+        st.stop()
     load_sidebar()
     app()

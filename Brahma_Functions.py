@@ -1,7 +1,5 @@
 import logging
 import streamlit as st
-from brahma_functions import settings
-from brahma_functions import ai_func
 from brahma_functions.models import talk_to_gpt3, talk_to_gpt3_turbo, talk_to_gpt4
 
 # Configure logger
@@ -18,35 +16,39 @@ st.set_page_config(
 
 def setup_api_key():
     """
-    Setup the OpenAI API key to the environment variable. This is required to use the OpenAI API.
+    Setup the OpenAI API key to the session state. This is required to use the OpenAI API.
     Also a refresh button to change the API key.
     """
-    # if settings.is_openai_key_set():
-    #     return
-
     api_key = st.text_input(
         "Setup OpenAI API Key:", placeholder="sk-<OPENAI API KEY>", type="password"
     )
-    # st.markdown(
-    #     "Get your API Key from [OpenAI](https://platform.openai.com/account/api-keys/).",
-    #     unsafe_allow_html=True,
-    # )
+    if not api_key:
+        return
+
     if api_key and api_key.startswith("sk-") and len(api_key) > 32:
-        settings.set_openai_key(api_key)
-        if settings.is_openai_key_set():
-            st.success("API Key set successfully.", icon="🔑")
+        st.session_state.openai_api_key = api_key
+        st.success("API Key set successfully.", icon="🔑")
     else:
-        if api_key:
-            st.warning("Invalid API Key.", icon="🔑")
+        st.warning("Invalid API Key.", icon="🔑")
 
     # Make a refresh button to reset the API key
-    if api_key:
-        if st.button("Reset API Key"):
-            if settings.is_openai_key_set():
-                settings.reset_openai_key()
-                st.success("API Key reset successfully.", icon="🔑")
-            else:
-                st.warning("No API Key set.", icon="🔑")
+    if st.button("Reset API Key"):
+        if "openai_api_key" in st.session_state:
+            del st.session_state["openai_api_key"]
+            st.warning("API Key reset successfully.", icon="🔑")
+        else:
+            st.warning("No API Key set.", icon="🔑")
+
+
+def is_api_key_set():
+    """
+    Check if the API key is set in the session state.
+    """
+
+    if "openai_api_key" in st.session_state:
+        return True
+    else:
+        return False
 
 
 ##########################################
@@ -148,6 +150,8 @@ def app():
 
     # Get OpenAI API key
     setup_api_key()
+
+    # add a proceed button to proceed to the code generation page
 
 
 if __name__ == "__main__":
