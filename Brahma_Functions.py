@@ -1,5 +1,6 @@
 import logging
 import streamlit as st
+from brahma_functions import settings
 from brahma_functions.models import talk_to_gpt3, talk_to_gpt3_turbo, talk_to_gpt4
 
 # Configure logger
@@ -26,7 +27,10 @@ def setup_api_key():
         return
 
     if api_key and api_key.startswith("sk-") and len(api_key) > 32:
+        # Set the API key to the session state
         st.session_state.openai_api_key = api_key
+        # Set the API key to the settings
+        settings.set_openai_key(api_key)
         st.success("API Key set successfully.", icon="🔑")
     else:
         st.warning("Invalid API Key.", icon="🔑")
@@ -34,6 +38,9 @@ def setup_api_key():
     # Make a refresh button to reset the API key
     if st.button("Reset API Key"):
         if "openai_api_key" in st.session_state:
+            # Delete the API key from the settings
+            settings.reset_openai_key()
+            # Delete the API key from the session state
             del st.session_state["openai_api_key"]
             st.warning("API Key reset successfully.", icon="🔑")
         else:
