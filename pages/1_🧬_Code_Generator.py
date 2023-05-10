@@ -155,7 +155,9 @@ def app():
             )
 
     # select model and optimization
-    model = st.selectbox("Select a model:", ["gpt-3.5-turbo", "text-davinci-003"])
+    model = st.selectbox(
+        "Select a model:", ["gpt-3.5-turbo (recommended)", "text-davinci-003"]
+    )
     # TODO: Add support for optimization
     # Optimize = st.checkbox("Optimize output code?")
 
@@ -165,7 +167,7 @@ def app():
             if model == "text-davinci-003":
                 gpt_response = talk_to_gpt3(prompt)
                 response = gpt_response.choices[0].text.strip()
-            elif model == "gpt-3.5-turbo":
+            elif model == "gpt-3.5-turbo (recommended)":
                 gpt_response = talk_to_gpt3_turbo(prompt)
                 response = gpt_response.choices[0].message["content"].strip()
             elif model == "gpt-4":

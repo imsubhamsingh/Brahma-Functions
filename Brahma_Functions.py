@@ -157,7 +157,7 @@ def app():
 
     st.markdown("### Getting Started")
     st.markdown(
-        "To get started, simply enter your OpenAI API key below. If you don't have an OpenAI API key, you can sign up for one [here](https://platform.openai.com/accounts/api-keys)."
+        "To get started, simply enter your OpenAI API key below. If you don't have an OpenAI API key, you can sign up for one [here](https://platform.openai.com/account/api-keys)."
     )
 
     # Get OpenAI API key
