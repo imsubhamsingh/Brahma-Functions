@@ -128,11 +128,11 @@ def app():
         # return_statement = st.text_input("Return Statement", placeholder="return duplicate")
 
         prompt = (
-            f"Act as {language} language specialist with version {version}.\n"
+            f"Act as {language} language programmer with version {version}.\n"
             f"Write a function {function_name} that takes {num_params} arguments: {', '.join(params)}"
             + f" and return {return_type} type.\n"
             f"Here is a docstring for the function: {function_docstring}\n\n"
-            + "Do not include any other explanatory text in your response and generate as code file without any (```)delimiters.\n\n"
+            + "Do not include any other explanatory text like (```)delimiters in your response.\n\n"
         )
 
     if code_type == "Code Stub":
@@ -141,9 +141,9 @@ def app():
             f"Generate code stub for function {function_name} that takes {num_params} arguments: {', '.join(params)}"
             + f" and return {return_type} type with docstrings.\n\n"
             + "Don't write the implementation of the function. Also write the main function to test the function.\n\n"
-            + "Do not include any other explanatory text in your response and generate as code file without any (```)delimiters.\n\n"
+            + "Do not include any other explanatory text like (```)delimiters in your response.\n\n"
         )
-
+    print(prompt)
     generate_tests = st.checkbox("Generate tests?")
 
     if generate_tests:
@@ -205,7 +205,8 @@ def app():
                 else:
                     extension = "cpp11"
             else:
-                extension = LANG_TO_FILE_EXTENSION.get(language, "txt")
+                extension = LANG_TO_FILE_EXTENSION.get(language.upper(), "txt")
+            print("File Extension:", extension)
 
             # Write code to file and download
             # TODO: Add support for USER DEFINED FILE PATH
@@ -227,6 +228,7 @@ if __name__ == "__main__":
     st.title("Automated Code Generation Tool")
     if not is_api_key_set():
         st.warning("Please set your OpenAI API key to continue.")
+
         st.stop()
     load_sidebar()
     app()
