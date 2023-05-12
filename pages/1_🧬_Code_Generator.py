@@ -56,50 +56,90 @@ def app():
             "Select a version:",
             ["3", "2"],
         )
+        test_framework = st.selectbox(
+            "Select a test framework:",
+            ["pytest", "unittest", "nose"],
+        )
     elif language == "JavaScript":
         version = st.selectbox(
             "Select a version:",
             ["ES6", "ES5", "Rhino1.7", "Nodejs v18.15.0"],
+        )
+        test_framework = st.selectbox(
+            "Select a test framework:",
+            ["jest", "mocha", "chai"],
         )
     elif language == "Java":
         version = st.selectbox(
             "Select a version:",
             ["14", "11", "8"],
         )
+        test_framework = st.selectbox(
+            "Select a test framework:",
+            ["junit", "testng"],
+        )
     elif language == "C":
         version = st.selectbox(
             "Select a version:",
             ["GCC 10.3", "GCC 9.3", "GCC 8.4"],
+        )
+        test_framework = st.selectbox(
+            "Select a test framework:",
+            ["cunit", "cmocka"],
         )
     elif language == "C++":
         version = st.selectbox(
             "Select a version:",
             ["C++17", "C++14", "C++11"],
         )
+        test_framework = st.selectbox(
+            "Select a test framework:",
+            ["gtest", "catch2"],
+        )
     elif language == "C#":
         version = st.selectbox(
             "Select a version:",
             ["C# 9", "C# 8", "C# 7"],
+        )
+        test_framework = st.selectbox(
+            "Select a test framework:",
+            ["nunit", "xunit"],
         )
     elif language == "Go":
         version = st.selectbox(
             "Select a version:",
             ["1.15", "1.14", "1.13"],
         )
+        test_framework = st.selectbox(
+            "Select a test framework:",
+            ["testing", "testify"],
+        )
     elif language == "PHP":
         version = st.selectbox(
             "Select a version:",
             ["7.4", "7.3", "7.2"],
+        )
+        test_framework = st.selectbox(
+            "Select a test framework:",
+            ["phpunit", "codeception"],
         )
     elif language == "Ruby":
         version = st.selectbox(
             "Select a version:",
             ["3.0", "2.7", "2.6", "2.5"],
         )
+        test_framework = st.selectbox(
+            "Select a test framework:",
+            ["rspec", "minitest"],
+        )
     elif language == "Swift":
         version = st.selectbox(
             "Select a version:",
             ["5.3", "5.2", "5.1", "4.2", "4.1"],
+        )
+        test_framework = st.selectbox(
+            "Select a test framework:",
+            ["xctest", "quick"],
         )
     else:
         st.error("Please select a language.")
@@ -202,7 +242,6 @@ def app():
                 f"Generate code stub for a function {function_name} that takes {num_params} arguments: {', '.join(params)}"
                 + f" and return {return_type} type with docstrings.\n\n"
                 + "Don't write the implementation of the function. Also write the main function to test the function.\n\n"
-                + "Do not include any other explanatory text like (```)delimiters in your response.\n\n"
             )
 
     if code_type == CODE_TYPE_CLASS:
@@ -229,11 +268,12 @@ def app():
     if code_type in [CODE_TYPE_FUN, CODE_TYPE_STUB]:
         generate_tests = st.checkbox("Generate tests?")
         if generate_tests:
+            # testing framework selection logic here
             num_tests = st.number_input("Number of Tests", min_value=0, step=1)
             if num_tests > 0:
-                prompt += (
-                    f"Generate {num_tests} tests for the function {function_name}.\n\n"
-                )
+                prompt += f"Also Generate {num_tests} tests for the {code_type.lower()} {function_name} using {test_framework} framework.\n\n"
+    prompt += "Please do not write any self explanatory text like (```)delimiters in your response.\n\n"
+    prompt = prompt.strip()
 
     logging.info(f"Prompt: {prompt}")
     # select model and optimization

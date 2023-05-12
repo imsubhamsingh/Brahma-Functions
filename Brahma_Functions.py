@@ -112,7 +112,8 @@ def app():
         "🚀 Support for multiple language versions",
         "🚀 Code generation for functions, classes, and methods",
         "🚀 Code stubs and docstrings generation for functions",
-        "🚀 Tests generation",
+        "🚀 Tests generation support",
+        "🚀 Support for 20+ testing frameworks",
         "🚀 Support for multiple AI models",
         "🚀 Download generated code as a file",
     ]
