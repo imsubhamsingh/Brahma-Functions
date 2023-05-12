@@ -61,3 +61,21 @@ TO_VERSIONS = {
     SWIFT_4_1: ["4.1"],
     SWIFT_5_1: ["5.1"],
 }
+
+
+# Code types
+CODE_TYPE_FUN = "Function"
+CODE_TYPE_CLASS = "Class"
+CODE_TYPE_STUB = "Code Stub"
+CODE_TYPE_METHOD = "Method"
+
+# Class options
+CLASS_OPT_1 = "Write custom class prompt"
+CLASS_OPT_2 = "Auto-generate class based on config"
+CLASS_PLACEHOLDER = "Write your prompt here\nEg: Write a Python program to create a Vehicle class with max_speed and mileage instance attributes."
+
+
+# GPT-3 models
+MODEL_OPT_1 = "gpt-3.5-turbo (recommended)"
+MODEL_OPT_2 = "text-davinci-003"
+MODEL_OPT_3 = "gpt-4 (coming soon)"

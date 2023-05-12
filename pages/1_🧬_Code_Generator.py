@@ -1,7 +1,19 @@
 import logging
 import streamlit as st
 from brahma_functions.models import talk_to_gpt3, talk_to_gpt3_turbo, talk_to_gpt4
-from brahma_functions.constants import LANG_TO_FILE_EXTENSION
+from brahma_functions.constants import (
+    LANG_TO_FILE_EXTENSION,
+    CODE_TYPE_FUN,
+    CODE_TYPE_CLASS,
+    CODE_TYPE_METHOD,
+    CODE_TYPE_STUB,
+    CLASS_OPT_1,
+    CLASS_OPT_2,
+    MODEL_OPT_1,
+    MODEL_OPT_2,
+    MODEL_OPT_3,
+    CLASS_PLACEHOLDER,
+)
 from Brahma_Functions import load_sidebar, is_api_key_set
 
 # Configure logger
@@ -88,15 +100,13 @@ def app():
         return
 
     # Determine if the user wants to generate code for a function or a class
-    # TODO: Add support for class and method
-
     options = [
-        "Function",
-        "Code Stub",
-        "Class",
-        "Method",
+        CODE_TYPE_FUN,
+        CODE_TYPE_CLASS,
+        CODE_TYPE_STUB,
+        CODE_TYPE_METHOD,
     ]
-    disabled_options = ["Class", "Method"]
+    disabled_options = [CODE_TYPE_METHOD]
 
     code_type = st.selectbox(
         "What type of code would you like to generate?",
@@ -105,13 +115,13 @@ def app():
         format_func=lambda x: x if x not in disabled_options else f"{x} (coming soon)",
     )
 
-    if code_type != "Function" and code_type != "Code Stub":
+    if code_type not in [CODE_TYPE_FUN, CODE_TYPE_CLASS, CODE_TYPE_STUB]:
         st.stop()
 
     prompt = ""
-
+    function_name = None
     # determine if the user wants to generate code for a function or a class
-    if code_type in ["Function", "Code Stub"]:
+    if code_type in [CODE_TYPE_FUN, CODE_TYPE_STUB]:
         # take language config input eg. function_name, function_docstring, function_params, return_type, return_statement
         function_name = st.text_input("Function Name", placeholder="find_duplicate")
         function_docstring = st.text_input(
@@ -135,7 +145,7 @@ def app():
             + "Do not include any other explanatory text like (```)delimiters in your response.\n\n"
         )
 
-    if code_type == "Code Stub":
+    if code_type == CODE_TYPE_STUB:
         prompt = (
             f"Act as {language} language specialist with version {version}.\n"
             f"Generate code stub for function {function_name} that takes {num_params} arguments: {', '.join(params)}"
@@ -143,38 +153,63 @@ def app():
             + "Don't write the implementation of the function. Also write the main function to test the function.\n\n"
             + "Do not include any other explanatory text like (```)delimiters in your response.\n\n"
         )
-    print(prompt)
-    generate_tests = st.checkbox("Generate tests?")
 
-    if generate_tests:
-        num_tests = st.number_input("Number of Tests", min_value=0, step=1)
+    if code_type == CODE_TYPE_CLASS:
+        # add radio button to select option
+        option = st.radio(
+            "Select an option:",
+            [CLASS_OPT_1, CLASS_OPT_2],
+        )
 
-        if num_tests > 0:
-            prompt += (
-                f"Generate {num_tests} tests for the function {function_name}.\n\n"
+        prompt = ""
+        if option == CLASS_OPT_1:
+            prompt = st.text_area(
+                "Prompt", height=100, max_chars=600, placeholder=CLASS_PLACEHOLDER
             )
+            prompt = prompt.strip()
+            if prompt == "":
+                st.error("Please enter a prompt.")
+                return
 
+        if option == CLASS_OPT_2:
+            st.warning("This feature is under development, please check back later.")
+            return
+
+    if code_type in [CODE_TYPE_FUN, CODE_TYPE_STUB]:
+        generate_tests = st.checkbox("Generate tests?")
+
+        if generate_tests:
+            num_tests = st.number_input("Number of Tests", min_value=0, step=1)
+
+            if num_tests > 0:
+                prompt += (
+                    f"Generate {num_tests} tests for the function {function_name}.\n\n"
+                )
+
+    logging.info(f"Prompt: {prompt}")
     # select model and optimization
     model = st.selectbox(
-        "Select a model:", ["gpt-3.5-turbo (recommended)", "text-davinci-003"]
+        "Select a Model:", [MODEL_OPT_1, MODEL_OPT_2, MODEL_OPT_3], index=0
     )
     # TODO: Add support for optimization
     # Optimize = st.checkbox("Optimize output code?")
 
     # generate code
     if st.button("Generate Code", type="primary"):
-        if code_type in ["Function", "Code Stub"]:
-            if model == "text-davinci-003":
-                gpt_response = talk_to_gpt3(prompt)
-                response = gpt_response.choices[0].text.strip()
-            elif model == "gpt-3.5-turbo (recommended)":
+        if code_type in [CODE_TYPE_FUN, CODE_TYPE_STUB, CODE_TYPE_CLASS]:
+            if model == MODEL_OPT_1:
                 gpt_response = talk_to_gpt3_turbo(prompt)
                 response = gpt_response.choices[0].message["content"].strip()
-            elif model == "gpt-4":
-                gpt_response = talk_to_gpt4(prompt)
-                response = gpt_response.choices[0].message["content"].strip()
+            elif model == MODEL_OPT_2:
+                gpt_response = talk_to_gpt3(prompt)
+                response = gpt_response.choices[0].text.strip()
+            elif model == MODEL_OPT_3:
+                st.warning("GPT-4 is coming soon. Please check back later.")
+                st.stop()
             else:
-                raise ValueError("The given model is not supported.")
+                st.error("Please select a model.")
+                st.stop()
+
             # generate code
             generated_code = response
             st.write("Generated Code:")
@@ -214,7 +249,9 @@ def app():
             btn = st.download_button(
                 label="Download File",
                 data=generated_code,
-                file_name=f"{function_name}.{extension}",
+                file_name=f"{function_name}.{extension}"
+                if function_name
+                else f"code.{extension}",
                 mime="text/plain",
             )
             if btn:
@@ -228,7 +265,7 @@ if __name__ == "__main__":
     st.title("Automated Code Generation Tool")
     if not is_api_key_set():
         st.warning("Please set your OpenAI API key to continue.")
-
         st.stop()
+
     load_sidebar()
     app()

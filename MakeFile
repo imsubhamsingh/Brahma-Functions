@@ -1,5 +1,6 @@
 PYTHON = python3
-
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
 .PHONY: test format docs_help
 
 .DEFAULT_GOAL := help
