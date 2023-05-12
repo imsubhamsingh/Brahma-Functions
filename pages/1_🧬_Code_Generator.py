@@ -7,12 +7,18 @@ from brahma_functions.constants import (
     CODE_TYPE_CLASS,
     CODE_TYPE_METHOD,
     CODE_TYPE_STUB,
-    CLASS_OPT_1,
-    CLASS_OPT_2,
     MODEL_OPT_1,
     MODEL_OPT_2,
     MODEL_OPT_3,
+    CLASS_OPT_1,
+    CLASS_OPT_2,
     CLASS_PLACEHOLDER,
+    FUN_PLACEHOLDER,
+    STUB_PLACEHOLDER,
+    FUN_OPT_1,
+    FUN_OPT_2,
+    STUB_OPT_1,
+    STUB_OPT_2,
 )
 from Brahma_Functions import load_sidebar, is_api_key_set
 
@@ -121,38 +127,83 @@ def app():
     prompt = ""
     function_name = None
     # determine if the user wants to generate code for a function or a class
-    if code_type in [CODE_TYPE_FUN, CODE_TYPE_STUB]:
-        # take language config input eg. function_name, function_docstring, function_params, return_type, return_statement
-        function_name = st.text_input("Function Name", placeholder="find_duplicate")
-        function_docstring = st.text_input(
-            "Function Docstring",
-            placeholder="Find the duplicate number in a list of numbers",
+    if code_type == CODE_TYPE_FUN:
+        # add radio button to select option
+        option = st.radio(
+            "Select an option:",
+            [FUN_OPT_1, FUN_OPT_2],
         )
-        # get parameters
-        params = []
-        num_params = st.number_input("Number of Parameters", min_value=0, step=1)
-        for i in range(num_params):
-            params.append(st.text_input(f"Parameter {i+1}"))
+        if option == FUN_OPT_1:
+            prompt = st.text_area(
+                "Prompt", height=100, max_chars=600, placeholder=FUN_PLACEHOLDER
+            )
+            prompt = prompt.strip()
+            if prompt == "":
+                st.error("Please enter a prompt.")
+                return
 
-        return_type = st.text_input("Return Type", placeholder="list")
-        # return_statement = st.text_input("Return Statement", placeholder="return duplicate")
+        else:
+            # take language config input eg. function_name, function_docstring, function_params, return_type, return_statement
+            function_name = st.text_input("Function Name", placeholder="find_duplicate")
+            function_docstring = st.text_input(
+                "Function Docstring",
+                placeholder="Find the duplicate number in a list of numbers",
+            )
+            # get parameters
+            params = []
+            num_params = st.number_input("Number of Parameters", min_value=0, step=1)
+            for i in range(num_params):
+                params.append(st.text_input(f"Parameter {i+1}"))
 
-        prompt = (
-            f"Act as {language} language programmer with version {version}.\n"
-            f"Write a function {function_name} that takes {num_params} arguments: {', '.join(params)}"
-            + f" and return {return_type} type.\n"
-            f"Here is a docstring for the function: {function_docstring}\n\n"
-            + "Do not include any other explanatory text like (```)delimiters in your response.\n\n"
-        )
+            return_type = st.text_input("Return Type", placeholder="list")
+            # return_statement = st.text_input("Return Statement", placeholder="return duplicate")
+
+            prompt = (
+                f"Act as {language} language programmer with version {version}.\n"
+                f"Write a function {function_name} that takes {num_params} arguments: {', '.join(params)}"
+                + f" and return {return_type} type.\n"
+                f"Here is a docstring for the function: {function_docstring}\n\n"
+                + "Do not include any other explanatory text like (```)delimiters in your response.\n\n"
+            )
 
     if code_type == CODE_TYPE_STUB:
-        prompt = (
-            f"Act as {language} language specialist with version {version}.\n"
-            f"Generate code stub for function {function_name} that takes {num_params} arguments: {', '.join(params)}"
-            + f" and return {return_type} type with docstrings.\n\n"
-            + "Don't write the implementation of the function. Also write the main function to test the function.\n\n"
-            + "Do not include any other explanatory text like (```)delimiters in your response.\n\n"
+        option = st.radio(
+            "Select an option:",
+            [STUB_OPT_1, STUB_OPT_2],
         )
+        if option == STUB_OPT_1:
+            prompt = st.text_area(
+                "Prompt", height=100, max_chars=600, placeholder=STUB_PLACEHOLDER
+            )
+            prompt = prompt.strip()
+            if prompt == "":
+                st.error("Please enter a prompt.")
+                return
+
+        else:
+            # TODO: REMOVE REDUNDANT CODE
+            # take language config input eg. function_name, function_docstring, function_params, return_type, return_statement
+            function_name = st.text_input("Function Name", placeholder="find_duplicate")
+            function_docstring = st.text_input(
+                "Function Docstring",
+                placeholder="Find the duplicate number in a list of numbers",
+            )
+            # get parameters
+            params = []
+            num_params = st.number_input("Number of Parameters", min_value=0, step=1)
+            for i in range(num_params):
+                params.append(st.text_input(f"Parameter {i+1}"))
+
+            return_type = st.text_input("Return Type", placeholder="list")
+            # return_statement = st.text_input("Return Statement", placeholder="return duplicate")
+
+            prompt = (
+                f"Act as {language} language specialist with version {version}.\n"
+                f"Generate code stub for a function {function_name} that takes {num_params} arguments: {', '.join(params)}"
+                + f" and return {return_type} type with docstrings.\n\n"
+                + "Don't write the implementation of the function. Also write the main function to test the function.\n\n"
+                + "Do not include any other explanatory text like (```)delimiters in your response.\n\n"
+            )
 
     if code_type == CODE_TYPE_CLASS:
         # add radio button to select option
@@ -177,10 +228,8 @@ def app():
 
     if code_type in [CODE_TYPE_FUN, CODE_TYPE_STUB]:
         generate_tests = st.checkbox("Generate tests?")
-
         if generate_tests:
             num_tests = st.number_input("Number of Tests", min_value=0, step=1)
-
             if num_tests > 0:
                 prompt += (
                     f"Generate {num_tests} tests for the function {function_name}.\n\n"
