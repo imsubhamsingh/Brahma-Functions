@@ -173,7 +173,7 @@ def app():
             "Select an option:",
             [FUN_OPT_1, FUN_OPT_2],
         )
-        if option == FUN_OPT_1:
+        if option == FUN_OPT_2:
             prompt = st.text_area(
                 "Prompt", height=100, max_chars=600, placeholder=FUN_PLACEHOLDER
             )
@@ -211,7 +211,7 @@ def app():
             "Select an option:",
             [STUB_OPT_1, STUB_OPT_2],
         )
-        if option == STUB_OPT_1:
+        if option == STUB_OPT_2:
             prompt = st.text_area(
                 "Prompt", height=100, max_chars=600, placeholder=STUB_PLACEHOLDER
             )
@@ -248,11 +248,11 @@ def app():
         # add radio button to select option
         option = st.radio(
             "Select an option:",
-            [CLASS_OPT_1, CLASS_OPT_2],
+            [CLASS_OPT_2, CLASS_OPT_1],
         )
 
         prompt = ""
-        if option == CLASS_OPT_1:
+        if option == CLASS_OPT_2:
             prompt = st.text_area(
                 "Prompt", height=100, max_chars=600, placeholder=CLASS_PLACEHOLDER
             )
@@ -261,7 +261,7 @@ def app():
                 st.error("Please enter a prompt.")
                 return
 
-        if option == CLASS_OPT_2:
+        else:
             st.warning("This feature is under development, please check back later.")
             return
 

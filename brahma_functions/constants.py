@@ -70,8 +70,8 @@ CODE_TYPE_STUB = "Code Stub"
 CODE_TYPE_METHOD = "Method"
 
 # Default placeholders
-OPT_1 = "Write custom {} prompt"
-OPT_2 = "Auto-generate {} based on config (Recommended)"
+OPT_1 = "Auto-generate {} based on config (Recommended)"
+OPT_2 = "Write custom {} prompt"
 
 # Class options
 CLASS_OPT_1 = OPT_1.format("class")
