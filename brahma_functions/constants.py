@@ -92,3 +92,44 @@ STUB_PLACEHOLDER = "Write your prompt here\nEg: Write a Code stub program to fin
 MODEL_OPT_1 = "gpt-3.5-turbo (recommended)"
 MODEL_OPT_2 = "text-davinci-003"
 MODEL_OPT_3 = "gpt-4 (coming soon)"
+
+
+# Pgen options
+WEB = "Web"
+BACKEND = "Backend"
+FRONTEND = "Frontend"
+FULL_STACK = "Full-Stack"
+MOBILE = "Mobile"
+DATA_SCIENCE = "Data Science"
+
+PROJECT_TYPES = [WEB, BACKEND, FRONTEND, FULL_STACK, MOBILE, DATA_SCIENCE]
+
+# Frameworks list
+HTML_CSS_JS = "Html-Css-Js"
+BOOTSTRAP = "Bootstrap"
+TAILWIND = "Tailwind"
+DJANGO = "Django"
+FLASK = "Flask"
+FASTAPI = "FastAPI"
+REACT = "React"
+ANGULAR = "Angular"
+VUE = "Vue"
+DJANGO_REACT = "Django-React"
+FLASK_REACT = "Flask-React"
+DJANGO_VUE = "Django-Vue"
+FLASK_VUE = "Flask-Vue"
+REACT_NATIVE = "React Native"
+FLUTTER = "Flutter"
+JUPYTER_NOTEBOOK = "Jupyter Notebook"
+STREAMLIT = "Streamlit"
+DASH = "Dash"
+
+
+FRAMEWORKS = {
+    WEB: [HTML_CSS_JS, BOOTSTRAP, TAILWIND],
+    BACKEND: [DJANGO, FLASK, FASTAPI],
+    FRONTEND: [REACT, ANGULAR, VUE],
+    FULL_STACK: [DJANGO_REACT, FLASK_REACT, DJANGO_VUE, FLASK_VUE],
+    MOBILE: [REACT_NATIVE, FLUTTER],
+    DATA_SCIENCE: [JUPYTER_NOTEBOOK, STREAMLIT, DASH],
+}

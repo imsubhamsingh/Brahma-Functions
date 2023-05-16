@@ -1,0 +1,3 @@
+def {function_name}({function_parameters}) -> {return_type}:
+    """{function_docstring}"""
+    {cursor}
