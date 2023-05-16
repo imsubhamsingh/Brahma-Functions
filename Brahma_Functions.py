@@ -72,7 +72,7 @@ def load_sidebar():
 
     st.sidebar.markdown(
         "## 🚀 Brahma Functions v1.0"
-        "\n\n Brahma Functions is an advanced AI function that leverages the power of OpenAI's GPT-3 to generate code from any required configurations."
+        "\n\n Brahma Functions harnesses the cutting-edge capabilities of OpenAI's GPT model to deliver an unparalleled AI-driven code generation experience."
     )
 
     st.sidebar.markdown("\n\n## 👨‍💻 About the Author")
@@ -97,7 +97,7 @@ def app():
     """
     st.title("𝞫(𝔁) Brahma Functions")
 
-    st.caption("<Empower your code with the divine functions of Brahma>")
+    st.caption("<Experience Next-Level Code Generation with Brahma Functions>")
 
     st.divider()
 
@@ -107,15 +107,15 @@ def app():
     st.divider()
     st.markdown("### Features")
     lines = [
-        "🚀 AI-powered code generation",
-        "🚀 Support for multiple programming languages",
-        "🚀 Support for multiple language versions",
-        "🚀 Code generation for functions, classes, and methods",
-        "🚀 Code stubs and docstrings generation for functions",
-        "🚀 Tests generation support",
-        "🚀 Support for 20+ testing frameworks",
-        "🚀 Support for multiple AI models",
-        "🚀 Download generated code as a file",
+        "🚀 AI-powered code generation with advanced NLP capabilities.",
+        "🚀 Wide language support for popular programming languages, enabling code generation in your preferred language.",
+        "🚀 Multiple language version compatibility to cater to different project requirements.",
+        "🚀 Generate code for functions, classes, and methods, reducing development time and effort.",
+        "🚀 Automatically create code stubs and docstrings for functions, promoting code documentation best practices.",
+        "🚀 Seamless test generation with support for over 20 testing frameworks, ensuring code quality and reliability.",
+        "🚀 Simplify SQL query generation by providing schemas for major relational databases, accelerating database development.",
+        "🚀 Utilize multiple AI models to tailor code generation to your specific needs.",
+        "🚀 Conveniently download the generated code as a file, making it easy to integrate into your projects.",
     ]
     st.markdown("###### " + "\n###### ".join(lines))
 
@@ -132,6 +132,7 @@ def app():
         "\n- 🐘 PHP"
         "\n- 💎 Ruby"
         "\n- 🕊️ Swift"
+        "\n- 🗃️ SQL"
     )
     st.divider()
     st.markdown("### Supported AI Models")

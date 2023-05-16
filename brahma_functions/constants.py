@@ -18,7 +18,6 @@ RUBY = "RUBY"
 SWIFT_4_1 = "SWIFT_4_1"
 SWIFT_5_1 = "SWIFT"
 
-
 LANG_TO_FILE_EXTENSION = {
     C: "c",
     CPP: "cpp",
@@ -87,6 +86,27 @@ FUN_PLACEHOLDER = "Write your prompt here\nEg: Write a function find_max to find
 STUB_OPT_1 = OPT_1.format("code stub")
 STUB_OPT_2 = OPT_2.format("code stub")
 STUB_PLACEHOLDER = "Write your prompt here\nEg: Write a Code stub program to find the max of two numbers."
+
+SQL_OLD_SCHEMA_PLACEHOLDER = """\
+Table departments, columns = [DepartmentId, DepartmentName]
+Table students, columns = [DepartmentId, StudentId, StudentName]
+"""
+
+SQL_OLD_QUERY_PLACEHOLDER = """\
+Create a MySQL query for all students in the Computer Science department.
+"""
+
+SQL_NEW_SCHEMA_PLACEHOLDER = """\
+Create table If Not Exists Employee (id int, salary int)
+Truncate table Employee
+insert into Employee (id, salary) values ('1', '100')
+insert into Employee (id, salary) values ('2', '200')
+insert into Employee (id, salary) values ('3', '300')
+"""
+
+SQL_NEW_QUERY_PLACEHOLDER = """\
+Write an SQL query to report the second highest salary from the Employee table. If there is no second highest salary, the query should report null
+"""
 
 # GPT-3 models
 MODEL_OPT_1 = "gpt-3.5-turbo (recommended)"
