@@ -31,7 +31,7 @@ def setup_api_key():
         st.session_state.openai_api_key = api_key
         # Set the API key to the settings
         settings.set_openai_key(api_key)
-        st.success("API Key set successfully.", icon="🔑")
+        st.success("Access Granted: API Key set successfully.", icon="🔑")
     else:
         st.warning("Invalid API Key.", icon="🔑")
 

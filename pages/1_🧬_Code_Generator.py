@@ -418,7 +418,16 @@ def app():
 if __name__ == "__main__":
     st.title("Automated Code Generation Tool")
     if not is_api_key_set():
-        st.warning("Please set your OpenAI API key to continue.")
+        st.warning("⚠️ Warning: Access Denied!!")
+        st.info(
+            "🔐 Please set your API key [here](https://brahma.streamlit.app/#getting-started) to unlock its full functionality"
+        )
+        st.markdown(
+            """
+            <iframe src="https://giphy.com/embed/8m4QVdIshz8ckvSBOl" width="400" height="350" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+            """,
+            unsafe_allow_html=True,
+        )
         st.stop()
 
     load_sidebar()
