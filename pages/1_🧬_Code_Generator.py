@@ -40,7 +40,7 @@ def app():
     Main function that runs the Brahma Functions app.
     """
     language = st.selectbox(
-        "Select a language:",
+        "Select a Language",
         [
             "Python",
             "JavaScript",
@@ -58,97 +58,97 @@ def app():
     # list versions of the language
     if language == "Python":
         version = st.selectbox(
-            "Select a version:",
+            "Select a Version",
             ["3", "2"],
         )
         test_framework = st.selectbox(
-            "Select a test framework:",
-            ["pytest", "unittest", "nose"],
+            "Select a Test Framework",
+            ["unittest", "pytest", "nose"],
         )
     elif language == "JavaScript":
         version = st.selectbox(
-            "Select a version:",
+            "Select a Version",
             ["ES6", "ES5", "Rhino1.7", "Nodejs v18.15.0"],
         )
         test_framework = st.selectbox(
-            "Select a test framework:",
+            "Select a Test Framework",
             ["jest", "mocha", "chai"],
         )
     elif language == "Java":
         version = st.selectbox(
-            "Select a version:",
+            "Select a Version",
             ["14", "11", "8"],
         )
         test_framework = st.selectbox(
-            "Select a test framework:",
+            "Select a Test Framework",
             ["junit", "testng"],
         )
     elif language == "C":
         version = st.selectbox(
-            "Select a version:",
+            "Select a Version",
             ["GCC 10.3", "GCC 9.3", "GCC 8.4"],
         )
         test_framework = st.selectbox(
-            "Select a test framework:",
+            "Select a Test Framework",
             ["cunit", "cmocka"],
         )
     elif language == "C++":
         version = st.selectbox(
-            "Select a version:",
+            "Select a Version",
             ["C++17", "C++14", "C++11"],
         )
         test_framework = st.selectbox(
-            "Select a test framework:",
+            "Select a Test Framework",
             ["gtest", "catch2"],
         )
     elif language == "C#":
         version = st.selectbox(
-            "Select a version:",
+            "Select a Version",
             ["C# 9", "C# 8", "C# 7"],
         )
         test_framework = st.selectbox(
-            "Select a test framework:",
+            "Select a Test Framework",
             ["nunit", "xunit"],
         )
     elif language == "Go":
         version = st.selectbox(
-            "Select a version:",
+            "Select a Version",
             ["1.15", "1.14", "1.13"],
         )
         test_framework = st.selectbox(
-            "Select a test framework:",
+            "Select a Test Framework",
             ["testing", "testify"],
         )
     elif language == "PHP":
         version = st.selectbox(
-            "Select a version:",
+            "Select a Version",
             ["7.4", "7.3", "7.2"],
         )
         test_framework = st.selectbox(
-            "Select a test framework:",
+            "Select a Test Framework",
             ["phpunit", "codeception"],
         )
     elif language == "Ruby":
         version = st.selectbox(
-            "Select a version:",
+            "Select a Version",
             ["3.0", "2.7", "2.6", "2.5"],
         )
         test_framework = st.selectbox(
-            "Select a test framework:",
+            "Select a Test Framework",
             ["rspec", "minitest"],
         )
     elif language == "Swift":
         version = st.selectbox(
-            "Select a version:",
+            "Select a Version",
             ["5.3", "5.2", "5.1", "4.2", "4.1"],
         )
         test_framework = st.selectbox(
-            "Select a test framework:",
+            "Select a Test Framework",
             ["xctest", "quick"],
         )
     elif language == "SQL":
         db_type = st.selectbox(
-            "Select a database type:",
+            "Select a database type",
             ["MYSQL", "PostgreSQL", "SQL Server", "Oracle", "SQLite"],
         )
         query_language = "SQL"
@@ -212,7 +212,7 @@ def app():
         if code_type == CODE_TYPE_FUN:
             # add radio button to select option
             option = st.radio(
-                "Select an option:",
+                "Select an option",
                 [FUN_OPT_1, FUN_OPT_2],
             )
             if option == FUN_OPT_2:
@@ -254,7 +254,7 @@ def app():
 
         if code_type == CODE_TYPE_STUB:
             option = st.radio(
-                "Select an option:",
+                "Select an option",
                 [STUB_OPT_1, STUB_OPT_2],
             )
             if option == STUB_OPT_2:
@@ -297,7 +297,7 @@ def app():
         if code_type == CODE_TYPE_CLASS:
             # add radio button to select option
             option = st.radio(
-                "Select an option:",
+                "Select an option",
                 [CLASS_OPT_2, CLASS_OPT_1],
             )
 
@@ -334,7 +334,7 @@ def app():
 
     # select model and optimization
     model = st.selectbox(
-        "Select a Model:", [MODEL_OPT_1, MODEL_OPT_2, MODEL_OPT_3], index=0
+        "Select a Model", [MODEL_OPT_1, MODEL_OPT_2, MODEL_OPT_3], index=0
     )
     # TODO: Add support for optimization
     # Optimize = st.checkbox("Optimize output code?")
