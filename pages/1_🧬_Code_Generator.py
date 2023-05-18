@@ -1,6 +1,7 @@
 import logging
 import streamlit as st
 from brahma_functions.models import talk_to_gpt3, talk_to_gpt3_turbo, talk_to_gpt4
+from brahma_functions.utils import sanitize_code
 from brahma_functions.constants import (
     LANG_TO_FILE_EXTENSION,
     CODE_TYPE_FUN,
@@ -43,15 +44,24 @@ def app():
         "Select a Language",
         [
             "Python",
-            "JavaScript",
             "Java",
+            "JavaScript",
             "C",
             "C++",
             "C#",
-            "Go",
-            "PHP",
-            "Ruby",
             "Swift",
+            "Go",
+            "Bash",
+            "PHP",
+            "Perl",
+            "Ruby",
+            "R",
+            "Rust",
+            "Kotlin",
+            "Scala",
+            "Haskell",
+            "Lua",
+            "Clojure",
             "SQL",
         ],
     )
@@ -146,6 +156,15 @@ def app():
             "Select a Test Framework",
             ["xctest", "quick"],
         )
+    elif language == "TypeScript":
+        version = st.selectbox(
+            "Select a Version",
+            ["4.1", "4.0", "3.9", "3.8"],
+        )
+        test_framework = st.selectbox(
+            "Select a Test Framework",
+            ["jest", "mocha"],
+        )
     elif language == "SQL":
         db_type = st.selectbox(
             "Select a database type",
@@ -153,6 +172,88 @@ def app():
         )
         query_language = "SQL"
         test_framework = None
+
+    elif language == "R":
+        version = st.selectbox(
+            "Select a Version",
+            ["4.0", "3.6", "3.5", "3.4"],
+        )
+        test_framework = st.selectbox(
+            "Select a Test Framework",
+            ["testthat", "RUnit"],
+        )
+    elif language == "Scala":
+        version = st.selectbox(
+            "Select a Version",
+            ["2.13", "2.12", "2.11", "2.10"],
+        )
+        test_framework = st.selectbox(
+            "Select a Test Framework",
+            ["scalatest", "specs2"],
+        )
+    elif language == "Kotlin":
+        version = st.selectbox(
+            "Select a Version",
+            ["1.4", "1.3", "1.2", "1.1"],
+        )
+        test_framework = st.selectbox(
+            "Select a Test Framework",
+            ["junit", "kotlintest"],
+        )
+    elif language == "Rust":
+        version = st.selectbox(
+            "Select a Version",
+            ["1.49", "1.48", "1.47", "1.46"],
+        )
+        test_framework = st.selectbox(
+            "Select a Test Framework",
+            ["rusttest", "rustspec"],
+        )
+    elif language == "Haskell":
+        version = st.selectbox(
+            "Select a Version",
+            ["8.10", "8.8", "8.6", "8.4"],
+        )
+        test_framework = st.selectbox(
+            "Select a Test Framework",
+            ["hspec", "hunit"],
+        )
+    elif language == "Bash":
+        version = st.selectbox(
+            "Select a Version",
+            ["5.1", "5.0", "4.4", "4.3"],
+        )
+        test_framework = st.selectbox(
+            "Select a Test Framework",
+            ["bats", "shunit2"],
+        )
+    elif language == "Lua":
+        version = st.selectbox(
+            "Select a Version",
+            ["5.4", "5.3", "5.2", "5.1"],
+        )
+        test_framework = st.selectbox(
+            "Select a Test Framework",
+            ["busted", "luassert"],
+        )
+    elif language == "Perl":
+        version = st.selectbox(
+            "Select a Version",
+            ["5.32", "5.30", "5.28", "5.26"],
+        )
+        test_framework = st.selectbox(
+            "Select a Test Framework",
+            ["test", "test2"],
+        )
+    elif language == "Clojure":
+        version = st.selectbox(
+            "Select a Version",
+            ["1.10", "1.9", "1.8", "1.7"],
+        )
+        test_framework = st.selectbox(
+            "Select a Test Framework",
+            ["clojure.test", "speclj"],
+        )
     else:
         st.error("Please select a language.")
         return
@@ -249,7 +350,7 @@ def app():
                     f"Write a function {function_name} that takes {num_params} arguments: {', '.join(params)}"
                     + f" and return {return_type} type.\n"
                     f"Here is a docstring for the function: {function_docstring}\n\n"
-                    + "Do not include any other explanatory text like (```)delimiters in your response.\n\n"
+                    + "Do not include any other explanatory text like ``` delimiters in your response.\n\n"
                 )
 
         if code_type == CODE_TYPE_STUB:
@@ -296,6 +397,10 @@ def app():
 
         if code_type == CODE_TYPE_CLASS:
             # add radio button to select option
+            if language == "Bash":
+                st.warning("Bash does not support Object Oriented Programming.")
+                return
+
             option = st.radio(
                 "Select an option",
                 [CLASS_OPT_2, CLASS_OPT_1],
@@ -324,12 +429,13 @@ def app():
                 num_tests = st.number_input("Number of Tests", min_value=0, step=1)
                 if num_tests > 0:
                     prompt += f"Also Generate {num_tests} tests for the {code_type.lower()} {function_name} using {test_framework} framework.\n\n"
-        prompt += "Please do not write any self explanatory text like (```)delimiters in your response.\n\n"
+        prompt += "Please do not write any self explanatory text like ``` delimiters in your response.\n\n"
 
         logging.info(f"Code Type: {code_type}")
 
     prompt = prompt.strip()
 
+    logging.info(f"Language: {language}")
     logging.info(f"Prompt: {prompt}")
 
     # select model and optimization
@@ -363,6 +469,9 @@ def app():
 
                 # generate code
                 generated_code = response
+                logging.info(f"Generated Code: {generated_code}")
+                generated_code = sanitize_code(generated_code)
+                logging.info(f"Sanitized Code: {generated_code}")
                 st.write("Generated Code:")
                 st.code(generated_code)
 
@@ -390,11 +499,9 @@ def app():
                         extension = "cpp14"
                     else:
                         extension = "cpp11"
-                elif language == "SQL":
-                    extension = "sql"
                 else:
                     extension = LANG_TO_FILE_EXTENSION.get(language.upper(), "txt")
-                print("File Extension:", extension)
+                logging.info(f"File Extension: {extension}")
 
                 # Write code to file and download
                 # TODO: Add support for USER DEFINED FILE PATH

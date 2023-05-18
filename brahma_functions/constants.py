@@ -17,6 +17,17 @@ PYTHON3 = "PYTHON3"
 RUBY = "RUBY"
 SWIFT_4_1 = "SWIFT_4_1"
 SWIFT_5_1 = "SWIFT"
+TYPESCRIPT = "TYPESCRIPT"
+SQL = "SQL"
+R = "R"
+RUST = "RUST"
+KOTLIN = "KOTLIN"
+SCALA = "SCALA"
+BASH = "BASH"
+HASKELL = "HASKELL"
+LUA = "LUA"
+PERL = "PERL"
+CLOJURE = "CLOJURE"
 
 LANG_TO_FILE_EXTENSION = {
     C: "c",
@@ -37,6 +48,17 @@ LANG_TO_FILE_EXTENSION = {
     RUBY: "rb",
     SWIFT_4_1: "swift",
     SWIFT_5_1: "swift",
+    TYPESCRIPT: "ts",
+    SQL: "sql",
+    R: "r",
+    RUST: "rs",
+    KOTLIN: "kt",
+    SCALA: "scala",
+    BASH: "sh",
+    HASKELL: "hs",
+    LUA: "lua",
+    PERL: "pl",
+    CLOJURE: "clj",
 }
 
 

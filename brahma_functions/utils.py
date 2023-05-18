@@ -49,7 +49,22 @@ def get_function_arg_default_values(func):
 
 def sanitize_code(code):
     """
-    Sanitize the code to remove the extra newlines and spaces.
+    Sanitize the code to remove the ```python and ``` from the code.
+    Also remove any char comes after ``` in first line.
+    Eg:
+    ```python
+    def my_function():
+        #This function takes no arguments and returns None.
+        return None
+    ```
+
+    will be converted to:
+    def my_function():
+        #This function takes no arguments and returns None.
+        return None
     """
-    code = code.replace("```", "")
+    if code.startswith("```"):
+        code = code[code.find("\n") + 1 :].strip()
+    if code.endswith("```"):
+        code = code[: code.rfind("\n")].strip()
     return code
