@@ -330,10 +330,13 @@ def app():
                 function_name = st.text_input(
                     "Function Name", placeholder="find_duplicate"
                 )
-                function_docstring = st.text_input(
-                    "Function Docstring",
+                function_docstring = st.text_area(
+                    "Function Description",
                     placeholder="Find the duplicate number in a list of numbers",
+                    max_chars=1000,
+                    height=100,
                 )
+                function_docstring = function_docstring.strip()
                 # get parameters
                 params = []
                 num_params = st.number_input(
@@ -373,10 +376,13 @@ def app():
                 function_name = st.text_input(
                     "Function Name", placeholder="find_duplicate"
                 )
-                function_docstring = st.text_input(
-                    "Function Docstring",
+                function_docstring = st.text_area(
+                    "Function Description",
                     placeholder="Find the duplicate number in a list of numbers",
+                    max_chars=1000,
+                    height=100,
                 )
+                function_docstring = function_docstring.strip()
                 # get parameters
                 params = []
                 num_params = st.number_input(

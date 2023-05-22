@@ -107,15 +107,16 @@ def app():
     st.divider()
     st.markdown("### Features")
     lines = [
-        "🚀 AI-powered code generation with advanced NLP capabilities.",
-        "🚀 Wide language support for popular programming languages, enabling code generation in your preferred language.",
-        "🚀 Multiple language version compatibility to cater to different project requirements.",
-        "🚀 Generate code for functions, classes, and methods, reducing development time and effort.",
-        "🚀 Automatically create code stubs and docstrings for functions, promoting code documentation best practices.",
-        "🚀 Seamless test generation with support for over 20 testing frameworks, ensuring code quality and reliability.",
-        "🚀 Simplify SQL query generation by providing schemas for major relational databases, accelerating database development.",
-        "🚀 Utilize multiple AI models to tailor code generation to your specific needs.",
-        "🚀 Conveniently download the generated code as a file, making it easy to integrate into your projects.",
+        "🚀 Advanced NLP capabilities for lightning-fast results",
+        "🌍 Support for 20+ programming languages, tailored to your preferences",
+        "🌟 Seamlessly compatible with multiple language versions for versatile projects",
+        "💡 Effortlessly generate code for functions, classes, and methods",
+        "📚 Automatic code stubs and docstrings creation for thorough documentation",
+        "✅ Reliable code quality ensured with 40+ testing frameworks",
+        "⚡ Accelerate database development with simplified SQL query generation",
+        "🚀 Tailor code generation to your needs with multiple AI models ",
+        "🔧 Customize code generation with cutting-edge AI models",
+        "💾 Download your generated code files with ease for seamless integration",
     ]
     st.markdown("###### " + "\n###### ".join(lines))
 
@@ -133,6 +134,16 @@ def app():
         "\n- 💎 Ruby"
         "\n- 🕊️ Swift"
         "\n- 🗃️ SQL"
+        "\n- 🐹 Haskell"
+        "\n- 🐚 Bash"
+        "\n- 🐪 Perl"
+        "\n- 🅡 R"
+        "\n- 🐦 TypeScript"
+        "\n- 🐬 Kotlin"
+        "\n- 🐍 Lua"
+        "\n- 🐙 Rust"
+        "\n- 🦑 Scala"
+        "\n- 🐍 Clojure"
     )
     st.divider()
     st.markdown("### Supported AI Models")
