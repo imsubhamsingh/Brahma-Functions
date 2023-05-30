@@ -21,7 +21,7 @@ def setup_api_key():
     Also a refresh button to change the API key.
     """
     api_key = st.text_input(
-        "Setup OpenAI API Key:", placeholder="sk-<OPENAI API KEY>", type="password"
+        "Setup OpenAI API Secret", placeholder="sk-<OPENAI API KEY>", type="password"
     )
     if not api_key:
         return
@@ -158,7 +158,7 @@ def app():
 
     st.markdown("### Privacy Policy")
     st.markdown(
-        "Brahma Functions app takes user privacy very seriously. We understand the importance of keeping your data safe and confidential. We only collect necessary information that is required to provide our service, and we do not share or sell this information to any third parties. Your OpenAI API key is securely stored and used only for generating code at your request. We may collect anonymous usage statistics to improve our app, but this data is not personally identifiable. We take appropriate measures to protect your data, including using industry-standard encryption and security protocols. By using our app, you agree to our privacy policy. If you have any concerns or questions about our privacy practices, please contact us at imsks007@gmail.com."
+        "Brahma Functions app takes user privacy very seriously. We understand the importance of keeping your data safe and confidential. We only collect necessary information that is required to provide our service, and we do not share or sell this information to any third parties. Your OpenAI API key is securely stored and used only for generating code at your request. To run your own queries here, you have to provide your OpenAI API key. The key will only be stored in your browser's [local storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage). By using our app, you agree to our privacy policy. If you have any concerns or questions about our privacy practices, please contact us at imsks007@gmail.com."
     )
 
     st.markdown(
@@ -170,9 +170,12 @@ def app():
 
     st.markdown("### Getting Started")
     st.markdown(
-        "To get started, simply enter your OpenAI API key below. If you don't have an OpenAI API key, you can sign up for one [here](https://platform.openai.com/account/api-keys)."
+        "To get started, simply enter your OpenAI API key below. If you don't have an OpenAI API key, You can find your API key in the [OpenAI dashboard](https://platform.openai.com/account/api-keys)."
     )
-
+    st.info(
+        "Note: Brahma Functions will use your API key to execute completion requests on your behalf. This will result in charges on your OpenAI account. Please make sure you understand the [OpenAI pricing model](https://platform.openai.com/pricing) before using it. Brahma Functions does not take responsibility for any charges incurred by executing queries on this site."
+    )
+    # st.markdown("Brahma functions will use your API key to execute completion requests on your behalf. This will result in charges on your OpenAI account. Please make sure you understand the [OpenAI pricing model](https://platform.openai.com/pricing) before using it. Brahma Functions does not take responsibility for any charges incurred by executing queries on this site.")
     # Get OpenAI API key
     setup_api_key()
 
