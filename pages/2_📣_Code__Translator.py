@@ -1,5 +1,6 @@
 import logging
 import streamlit as st
+from streamlit_ace import st_ace, KEYBINDINGS, LANGUAGES, THEMES
 from Brahma_Functions import load_sidebar, is_api_key_set
 from brahma_functions.constants import MODEL_OPT_1, MODEL_OPT_2, MODEL_OPT_3
 from brahma_functions.models import talk_to_gpt3, talk_to_gpt3_turbo
@@ -12,15 +13,17 @@ def app():
     """
     Main function that runs the AI Code Translator app.
     """
+
     # language selection
     input_language = st.selectbox(
         "Select Input Language",
         (
             "Python",
             "JavaScript",
+            "C",
             "C++",
             "Java",
-            "C#",
+            "CSharp",
             "PHP",
             "Go",
             "Ruby",
@@ -38,7 +41,19 @@ def app():
         ),
         key="input_language",
     )
-    code = st.text_area("Enter your code here", height=300)
+
+    c1, c2 = st.columns([3, 1])
+    with c1:
+        code = st_ace(
+            # language=input_language.lower(),
+            language=c2.selectbox("Language mode", options=LANGUAGES, index=121),
+            theme=c2.selectbox("Theme", options=THEMES, index=2),
+            keybinding=c2.selectbox("Keybinding mode", options=KEYBINDINGS, index=3),
+            font_size=c2.slider("Font size", 5, 24, 14),
+            min_lines=20,
+            key="ace",
+            auto_update=True,
+        )
 
     # Select the language you want to translate to
     output_language = st.selectbox(
@@ -46,9 +61,10 @@ def app():
         (
             "JavaScript",
             "Python",
+            "C",
             "C++",
             "Java",
-            "C#",
+            "CSharp",
             "PHP",
             "Go",
             "Ruby",
@@ -66,6 +82,9 @@ def app():
         ),
         key="output_language",
     )
+
+    # fetch code from ace editor
+    code = code.strip()
 
     # prompt
     prompt = f"You are an expert programmer in all programming languages. Translate the following {input_language} code to {output_language} code:\n\n{code}"
@@ -112,14 +131,21 @@ def app():
             # display translated code
             translated_code = response
             logging.info(f"Translated code: {translated_code}")
-            st.code(translated_code)
+
+            # display translated code in ace editor
+            st_ace(
+                translated_code,
+                language=output_language.lower(),
+                theme="chrome",
+                keybinding="vscode",
+                font_size=14,
+                min_lines=20,
+                key="ace2",
+                auto_update=True,
+            )
 
 
 if __name__ == "__main__":
-    # st.markdown(
-    #     "<h1 style='text-align: center; color: black;'>AI Code Translator</h1>",
-    #     unsafe_allow_html=True,
-    # )
     st.title("AI Code Translator")
     st.caption("Effortless code translation for developers")
     st.divider()
