@@ -113,7 +113,7 @@ def app():
         "💡 Effortlessly generate code for functions, classes, and methods",
         "📚 Automatic code stubs and docstrings creation for thorough documentation",
         "✅ Reliable code quality ensured with 40+ testing frameworks",
-        "🎧 Harness the AI magic for seamless code translation!",
+        "🎧 Harness the AI magic for seamless code translation",
         "⚡  Accelerate database development with simplified SQL query generation",
         "🚀 Tailor code generation to your needs with multiple AI models ",
         "🔧 Customize code generation with cutting-edge AI models",

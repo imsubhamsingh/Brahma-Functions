@@ -265,13 +265,13 @@ def app():
         schema = st.text_area(
             "Enter your Schema",
             height=150,
-            max_chars=1000,
+            max_chars=4000,
             placeholder=SQL_NEW_SCHEMA_PLACEHOLDER,
         )
         query_prompt = st.text_area(
             "Enter your Prompt",
             height=100,
-            max_chars=600,
+            max_chars=2000,
             placeholder=SQL_NEW_QUERY_PLACEHOLDER,
         )
 
@@ -318,7 +318,7 @@ def app():
             )
             if option == FUN_OPT_2:
                 prompt = st.text_area(
-                    "Prompt", height=100, max_chars=600, placeholder=FUN_PLACEHOLDER
+                    "Prompt", height=100, max_chars=2000, placeholder=FUN_PLACEHOLDER
                 )
                 prompt = prompt.strip()
                 if prompt == "":
@@ -333,7 +333,7 @@ def app():
                 function_docstring = st.text_area(
                     "Function Description",
                     placeholder="Find the duplicate number in a list of numbers",
-                    max_chars=1000,
+                    max_chars=4000,
                     height=100,
                 )
                 function_docstring = function_docstring.strip()
@@ -363,7 +363,7 @@ def app():
             )
             if option == STUB_OPT_2:
                 prompt = st.text_area(
-                    "Prompt", height=100, max_chars=600, placeholder=STUB_PLACEHOLDER
+                    "Prompt", height=100, max_chars=2000, placeholder=STUB_PLACEHOLDER
                 )
                 prompt = prompt.strip()
                 if prompt == "":
@@ -379,7 +379,7 @@ def app():
                 function_docstring = st.text_area(
                     "Function Description",
                     placeholder="Find the duplicate number in a list of numbers",
-                    max_chars=1000,
+                    max_chars=4000,
                     height=100,
                 )
                 function_docstring = function_docstring.strip()
@@ -415,7 +415,7 @@ def app():
             prompt = ""
             if option == CLASS_OPT_2:
                 prompt = st.text_area(
-                    "Prompt", height=100, max_chars=600, placeholder=CLASS_PLACEHOLDER
+                    "Prompt", height=100, max_chars=2000, placeholder=CLASS_PLACEHOLDER
                 )
                 prompt = prompt.strip()
                 if prompt == "":
@@ -454,84 +454,91 @@ def app():
     # generate code
 
     if st.button("Generate Code", type="primary"):
-        if code_type or db_type:
-            if code_type in [
-                CODE_TYPE_FUN,
-                CODE_TYPE_STUB,
-                CODE_TYPE_CLASS,
-            ] or db_type in ["MYSQL", "PostgreSQL", "SQL Server", "Oracle", "SQLite"]:
-                if model == MODEL_OPT_1:
-                    gpt_response = talk_to_gpt3_turbo(prompt)
-                    response = gpt_response.choices[0].message["content"].strip()
-                elif model == MODEL_OPT_2:
-                    gpt_response = talk_to_gpt3(prompt)
-                    response = gpt_response.choices[0].text.strip()
-                elif model == MODEL_OPT_3:
-                    st.warning("GPT-4 is coming soon. Please check back later.")
-                    st.stop()
+        with st.spinner("Generating Code..."):
+            if code_type or db_type:
+                if code_type in [
+                    CODE_TYPE_FUN,
+                    CODE_TYPE_STUB,
+                    CODE_TYPE_CLASS,
+                ] or db_type in [
+                    "MYSQL",
+                    "PostgreSQL",
+                    "SQL Server",
+                    "Oracle",
+                    "SQLite",
+                ]:
+                    if model == MODEL_OPT_1:
+                        gpt_response = talk_to_gpt3_turbo(prompt)
+                        response = gpt_response.choices[0].message["content"].strip()
+                    elif model == MODEL_OPT_2:
+                        gpt_response = talk_to_gpt3(prompt)
+                        response = gpt_response.choices[0].text.strip()
+                    elif model == MODEL_OPT_3:
+                        st.warning("GPT-4 is coming soon. Please check back later.")
+                        st.stop()
+                    else:
+                        st.error("Please select a model.")
+                        st.stop()
+
+                    # generate code
+                    generated_code = response
+                    logging.info(f"Generated Code: {generated_code}")
+                    generated_code = sanitize_code(generated_code)
+                    logging.info(f"Sanitized Code: {generated_code}")
+                    st.write("Generated Code:")
+                    st.code(generated_code)
+
+                    if language == "Python":
+                        if version == "2":
+                            extension = "py"
+                        else:
+                            extension = "py3"
+                    elif language == "JavaScript":
+                        if version == "Nodejs v18.15.0":
+                            extension = "njs"
+                        else:
+                            extension = "js"
+                    elif language == "Java":
+                        if version == "8":
+                            extension = "java8"
+                        elif version == "11":
+                            extension = "java11"
+                        else:
+                            extension = "java14"
+                    elif language == "C++":
+                        if version == "17":
+                            extension = "cpp17"
+                        elif version == "14":
+                            extension = "cpp14"
+                        else:
+                            extension = "cpp11"
+                    else:
+                        extension = LANG_TO_FILE_EXTENSION.get(language.upper(), "txt")
+                    logging.info(f"File Extension: {extension}")
+
+                    # Write code to file and download
+                    # TODO: Add support for USER DEFINED FILE PATH
+                    # with open(f"{function_name}.{extension}", "w") as f:
+                    btn = st.download_button(
+                        label="Download File",
+                        data=generated_code,
+                        file_name=f"{function_name}.{extension}"
+                        if function_name
+                        else f"code.{extension}",
+                        mime="text/plain",
+                    )
+                    if btn:
+                        st.write("Downloaded")
                 else:
-                    st.error("Please select a model.")
-                    st.stop()
-
-                # generate code
-                generated_code = response
-                logging.info(f"Generated Code: {generated_code}")
-                generated_code = sanitize_code(generated_code)
-                logging.info(f"Sanitized Code: {generated_code}")
-                st.write("Generated Code:")
-                st.code(generated_code)
-
-                if language == "Python":
-                    if version == "2":
-                        extension = "py"
-                    else:
-                        extension = "py3"
-                elif language == "JavaScript":
-                    if version == "Nodejs v18.15.0":
-                        extension = "njs"
-                    else:
-                        extension = "js"
-                elif language == "Java":
-                    if version == "8":
-                        extension = "java8"
-                    elif version == "11":
-                        extension = "java11"
-                    else:
-                        extension = "java14"
-                elif language == "C++":
-                    if version == "17":
-                        extension = "cpp17"
-                    elif version == "14":
-                        extension = "cpp14"
-                    else:
-                        extension = "cpp11"
-                else:
-                    extension = LANG_TO_FILE_EXTENSION.get(language.upper(), "txt")
-                logging.info(f"File Extension: {extension}")
-
-                # Write code to file and download
-                # TODO: Add support for USER DEFINED FILE PATH
-                # with open(f"{function_name}.{extension}", "w") as f:
-                btn = st.download_button(
-                    label="Download File",
-                    data=generated_code,
-                    file_name=f"{function_name}.{extension}"
-                    if function_name
-                    else f"code.{extension}",
-                    mime="text/plain",
-                )
-                if btn:
-                    st.write("Downloaded")
+                    st.error("Please select a valid option.")
             else:
                 st.error("Please select a valid option.")
-        else:
-            st.error("Please select a valid option.")
 
 
 if __name__ == "__main__":
     st.title("Automated Code Generation Tool")
     if not is_api_key_set():
-        st.warning("⚠️ Warning: Access Denied!!")
+        st.error("⚠️ Error: Access Denied!!")
         st.info(
             "🔐 Please set your API key [here](https://brahma.streamlit.app/#getting-started) to unlock its full functionality"
         )
