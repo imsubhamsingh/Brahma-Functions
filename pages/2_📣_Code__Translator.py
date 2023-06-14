@@ -83,12 +83,15 @@ def app():
         key="output_language",
     )
 
+    comments = st.checkbox("Generate comments for the code", key="comments")
+
     # fetch code from ace editor
     code = code.strip()
 
     # prompt
     prompt = f"You are an expert programmer in all programming languages. Translate the following {input_language} code to {output_language} code:\n\n{code}"
     prompt += "\n\n"
+    prompt += "Also write the necessary comments for the code:\n\n" if comments else ""
     prompt += "Please do not write any self explanatory text like ``` delimiters in your response.\n\n"
 
     prompt = prompt.strip()
