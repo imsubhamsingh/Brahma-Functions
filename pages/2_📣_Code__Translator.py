@@ -4,6 +4,7 @@ from streamlit_ace import st_ace, KEYBINDINGS, LANGUAGES, THEMES
 from Brahma_Functions import load_sidebar, is_api_key_set
 from brahma_functions.constants import MODEL_OPT_1, MODEL_OPT_2, MODEL_OPT_3
 from brahma_functions.models import talk_to_gpt3, talk_to_gpt3_turbo
+from brahma_functions.utils import sanitize_code
 
 # init logger
 logging.basicConfig(format="\n%(asctime)s\n%(message)s", level=logging.INFO, force=True)
@@ -41,6 +42,107 @@ def app():
         ),
         key="input_language",
     )
+
+    if input_language == "Python":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["3", "2"],
+        )
+    elif input_language == "JavaScript":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["ES6", "ES5"],
+        )
+    elif input_language == "C":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["C11", "C99"],
+        )
+    elif input_language == "C++":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["C++17", "C++14", "C++11", "C++98"],
+        )
+    elif input_language == "Java":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["14", "13", "12", "11", "10", "8"],
+        )
+    elif input_language == "CSharp":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["9", "8", "7.3", "7.2", "7.1", "7", "6", "5"],
+        )
+    elif input_language == "PHP":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["8", "7.4", "7.3", "7.2", "7.1", "7.0", "5.6"],
+        )
+    elif input_language == "Go":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["1.15", "1.14", "1.13", "1.12", "1.11", "1.10", "1.9"],
+        )
+    elif input_language == "Ruby":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["3.0", "2.7", "2.6", "2.5", "2.4", "2.3", "2.2"],
+        )
+    elif input_language == "TypeScript":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["4.1", "4.0", "3.9", "3.8", "3.7", "3.6", "3.5"],
+        )
+    elif input_language == "Swift":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["5.3", "5.2", "5.1", "5.0", "4.2"],
+        )
+    elif input_language == "Kotlin":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["1.4", "1.3", "1.2", "1.1", "1.0"],
+        )
+    elif input_language == "Rust":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["1.49", "1.48", "1.47", "1.46", "1.45", "1.44", "1.43"],
+        )
+    elif input_language == "Scala":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["2.13", "2.12", "2.11", "2.10"],
+        )
+    elif input_language == "R":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["4.0", "3.6", "3.5", "3.4", "3.3"],
+        )
+    elif input_language == "Haskell":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["8.10", "8.8", "8.6", "8.4", "8.2", "8.0"],
+        )
+    elif input_language == "Perl":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["5.32", "5.30", "5.28", "5.26", "5.24", "5.22"],
+        )
+    elif input_language == "Lua":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["5.4", "5.3", "5.2", "5.1"],
+        )
+    elif input_language == "Clojure":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["1.10", "1.9", "1.8", "1.7", "1.6"],
+        )
+    elif input_language == "Bash":
+        input_version = st.selectbox(
+            "Select a Version",
+            ["5.1", "5.0", "4.4", "4.3", "4.2", "4.1", "4.0"],
+        )
 
     c1, c2 = st.columns([3, 1])
     with c1:
@@ -83,13 +185,140 @@ def app():
         key="output_language",
     )
 
+    if output_language == "Python":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["3", "2"],
+            key="output_version",
+        )
+    elif output_language == "JavaScript":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["ES6", "ES5"],
+            key="output_version",
+        )
+    elif output_language == "C":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["C11", "C99"],
+            key="output_version",
+        )
+    elif output_language == "C++":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["C++17", "C++14", "C++11", "C++98"],
+            key="output_version",
+        )
+    elif output_language == "Java":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["14", "13", "12", "11", "10", "8"],
+            key="output_version",
+        )
+    elif output_language == "CSharp":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["9", "8", "7.3", "7.2", "7.1", "7", "6", "5"],
+            key="output_version",
+        )
+    elif output_language == "PHP":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["8", "7.4", "7.3", "7.2", "7.1", "7.0", "5.6"],
+            key="output_version",
+        )
+    elif output_language == "Go":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["1.15", "1.14", "1.13", "1.12", "1.11", "1.10", "1.9"],
+            key="output_version",
+        )
+    elif output_language == "Ruby":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["3.0", "2.7", "2.6", "2.5", "2.4", "2.3", "2.2"],
+            key="output_version",
+        )
+    elif output_language == "TypeScript":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["4.1", "4.0", "3.9", "3.8", "3.7", "3.6", "3.5"],
+            key="output_version",
+        )
+    elif output_language == "Swift":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["5.3", "5.2", "5.1", "5.0", "4.2"],
+            key="output_version",
+        )
+    elif output_language == "Kotlin":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["1.4", "1.3", "1.2", "1.1", "1.0"],
+            key="output_version",
+        )
+    elif output_language == "Rust":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["1.49", "1.48", "1.47", "1.46", "1.45", "1.44", "1.43"],
+            key="output_version",
+        )
+    elif output_language == "Scala":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["2.13", "2.12", "2.11", "2.10"],
+            key="output_version",
+        )
+    elif output_language == "R":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["4.0", "3.6", "3.5", "3.4", "3.3"],
+            key="output_version",
+        )
+    elif output_language == "Haskell":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["8.10", "8.8", "8.6", "8.4", "8.2", "8.0"],
+            key="output_version",
+        )
+    elif output_language == "Perl":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["5.32", "5.30", "5.28", "5.26", "5.24", "5.22"],
+            key="output_version",
+        )
+    elif output_language == "Lua":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["5.4", "5.3", "5.2", "5.1"],
+            key="output_version",
+        )
+    elif output_language == "Clojure":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["1.10", "1.9", "1.8", "1.7", "1.6"],
+            key="output_version",
+        )
+    elif output_language == "Bash":
+        output_version = st.selectbox(
+            "Select a Version",
+            ["5.1", "5.0", "4.4", "4.3", "4.2", "4.1", "4.0"],
+            key="output_version",
+        )
+
+    if input_language == output_language and input_version == output_version:
+        st.error(
+            "Hey! You can't translate to the same language and version! 😅 Please select a different language or version."
+        )
+        st.stop()
+
     comments = st.checkbox("Generate comments for the code", key="comments")
 
     # fetch code from ace editor
     code = code.strip()
 
     # prompt
-    prompt = f"You are an expert programmer in all programming languages. Translate the following {input_language} code to {output_language} code:\n\n{code}"
+    prompt = f"You are an expert programmer in all programming languages. Translate the following {input_language} {input_version} code to {output_language} {output_version} code:\n\n{code}"
     prompt += "\n\n"
     prompt += "Also write the necessary comments for the code:\n\n" if comments else ""
     prompt += "Please do not write any self explanatory text like ``` delimiters in your response.\n\n"
@@ -133,6 +362,9 @@ def app():
 
             # display translated code
             translated_code = response
+
+            # sanitize code
+            sanitize_code(translated_code)
             logging.info(f"Translated code: {translated_code}")
 
             # display translated code in ace editor
