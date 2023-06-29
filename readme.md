@@ -1,13 +1,14 @@
-#  𝞫(𝔁) Brahma Functions
-Experience Next-Level Code Generation with Brahma Functions
+<h1 align="center">Brahma Functions ⚡️</h1>
+<h2 align="center"> Experience Next-Level Code Generation with Brahma Functions </h2>
 
-<img src="https://user-images.githubusercontent.com/24203687/233804138-f569c98c-8c4b-45a5-9c5f-9ef8b40036ef.jpg" width="900" height="500">
+<img src="https://github.com/imsubhamsingh/Brahma-Functions/assets/24203687/c9f6f573-3e3b-4db1-bb72-1d5a9667918c" align="center" width="1000" height="600">
+
 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-
-Welcome to Brahma Functions, the ultimate solution for generating high-quality accurate code quickly and easily. Our intuitive web app supports a range of programming languages and lets you customize function name, docstring, parameters, and return type with ease. With cutting-edge AI technology and a range of models, our tool streamlines the coding process and makes creating test cases a breeze. Whether you're a seasoned pro or a beginner, Brahma Functions simplifies the task of crafting top-notch code for your projects. Give it a go today and feel the difference!
+<h3 align="center">
+Welcome to Brahma Functions, the ultimate solution for generating high-quality, accurate code quickly and easily. Our intuitive web app supports a range of programming languages and lets you customize function names, docstring, parameters, and return types with ease. With cutting-edge AI technology and a range of models, our tool streamlines the coding process and makes creating test cases a breeze. Whether you're a seasoned pro or a beginner, Brahma Functions simplifies the task of crafting top-notch code for your projects. Give it a try today and feel the difference! </h3>
 
 ## Features
 #### 🚀 Advanced NLP capabilities for lightning-fast results
