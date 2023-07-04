@@ -95,9 +95,19 @@ def app():
     """
     Main function that runs the Brahma Functions app.
     """
-    st.title("𝞫(𝔁) Brahma Functions")
-
-    st.caption("<Experience Next-Level Code Generation with Brahma Functions>")
+    st.markdown(
+        """
+        <div style="text-align: center; color: black;">
+            <h1> ⚡️Brahma Functions⚡️</h1>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        """<div style="text-align: center; color: black;"> <h4> <i> Next-Level Code Generation with AI </i> </h4> </div>""",
+        unsafe_allow_html=True,
+    )
+    # st.caption("<Experience Next-Level Code Generation with Brahma Functions>")
 
     st.divider()
 

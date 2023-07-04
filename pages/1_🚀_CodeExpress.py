@@ -536,7 +536,19 @@ def app():
 
 
 if __name__ == "__main__":
-    st.title("Automated Code Generation Tool")
+    st.markdown(
+        """
+        <div style="text-align: center; color: black;">
+            <h1>CodeExpress</h1>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        """<div style="text-align: center; color: black;"> <h4> <i>Your Fast Lane to Efficient Code Generation</i> </h4> </div> """,
+        unsafe_allow_html=True,
+    )
+
     if not is_api_key_set():
         st.error("⚠️ Error: Access Denied!!")
         st.info(
