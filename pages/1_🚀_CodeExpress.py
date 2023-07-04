@@ -554,12 +554,6 @@ if __name__ == "__main__":
         st.info(
             "🔐 Please set your API key [here](https://brahma.streamlit.app/#getting-started) to unlock its full functionality"
         )
-        st.markdown(
-            """
-            <iframe src="https://giphy.com/embed/8m4QVdIshz8ckvSBOl" width="400" height="350" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
-            """,
-            unsafe_allow_html=True,
-        )
         st.stop()
 
     load_sidebar()
