@@ -403,4 +403,6 @@ if __name__ == "__main__":
         st.stop()
 
     load_sidebar()
-    app()
+    # app()
+    from brahma_functions.streamlit_utils import maintenance_mode
+    maintenance_mode()
