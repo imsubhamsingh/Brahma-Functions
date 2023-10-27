@@ -557,7 +557,7 @@ if __name__ == "__main__":
         st.stop()
 
     load_sidebar()
-    # app()
+    app()
     st.markdown("<script src='https://ultronlabs.statuspage.io/embed/script.js'></script>", unsafe_allow_html=True)
     from brahma_functions.streamlit_utils import maintenance_mode
-    maintenance_mode()
+    # maintenance_mode()
